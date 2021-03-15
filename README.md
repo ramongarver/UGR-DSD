@@ -1,1 +1,1 @@
-# UGR-DSD
+# Prácticas - Desarrollo de Sistemas Distribuidos
