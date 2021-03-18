@@ -3,14 +3,14 @@
  * It was generated using rpcgen.
  */
 
-#include "dir.h"
+#include "calculadora.h"
 
 bool_t
 xdr_sumar_1_argument (XDR *xdrs, sumar_1_argument *objp)
 {
-	 if (!xdr_int (xdrs, &objp->arg1))
+	 if (!xdr_int (xdrs, &objp->a))
 		 return FALSE;
-	 if (!xdr_int (xdrs, &objp->arg2))
+	 if (!xdr_int (xdrs, &objp->b))
 		 return FALSE;
 	return TRUE;
 }
@@ -18,9 +18,9 @@ xdr_sumar_1_argument (XDR *xdrs, sumar_1_argument *objp)
 bool_t
 xdr_restar_1_argument (XDR *xdrs, restar_1_argument *objp)
 {
-	 if (!xdr_int (xdrs, &objp->arg1))
+	 if (!xdr_int (xdrs, &objp->a))
 		 return FALSE;
-	 if (!xdr_int (xdrs, &objp->arg2))
+	 if (!xdr_int (xdrs, &objp->b))
 		 return FALSE;
 	return TRUE;
 }
@@ -28,9 +28,9 @@ xdr_restar_1_argument (XDR *xdrs, restar_1_argument *objp)
 bool_t
 xdr_multiplicar_1_argument (XDR *xdrs, multiplicar_1_argument *objp)
 {
-	 if (!xdr_int (xdrs, &objp->arg1))
+	 if (!xdr_int (xdrs, &objp->a))
 		 return FALSE;
-	 if (!xdr_int (xdrs, &objp->arg2))
+	 if (!xdr_int (xdrs, &objp->b))
 		 return FALSE;
 	return TRUE;
 }
@@ -38,9 +38,9 @@ xdr_multiplicar_1_argument (XDR *xdrs, multiplicar_1_argument *objp)
 bool_t
 xdr_dividir_1_argument (XDR *xdrs, dividir_1_argument *objp)
 {
-	 if (!xdr_int (xdrs, &objp->arg1))
+	 if (!xdr_int (xdrs, &objp->a))
 		 return FALSE;
-	 if (!xdr_int (xdrs, &objp->arg2))
+	 if (!xdr_int (xdrs, &objp->b))
 		 return FALSE;
 	return TRUE;
 }

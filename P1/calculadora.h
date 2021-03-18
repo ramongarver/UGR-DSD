@@ -3,8 +3,8 @@
  * It was generated using rpcgen.
  */
 
-#ifndef _DIR_H_RPCGEN
-#define _DIR_H_RPCGEN
+#ifndef _CALCULADORA_H_RPCGEN
+#define _CALCULADORA_H_RPCGEN
 
 #include <rpc/rpc.h>
 
@@ -15,31 +15,31 @@ extern "C" {
 
 
 struct sumar_1_argument {
-	int arg1;
-	int arg2;
+	int a;
+	int b;
 };
 typedef struct sumar_1_argument sumar_1_argument;
 
 struct restar_1_argument {
-	int arg1;
-	int arg2;
+	int a;
+	int b;
 };
 typedef struct restar_1_argument restar_1_argument;
 
 struct multiplicar_1_argument {
-	int arg1;
-	int arg2;
+	int a;
+	int b;
 };
 typedef struct multiplicar_1_argument multiplicar_1_argument;
 
 struct dividir_1_argument {
-	int arg1;
-	int arg2;
+	int a;
+	int b;
 };
 typedef struct dividir_1_argument dividir_1_argument;
 
-#define OPERACIONESPROG 0x20000155
-#define OPERACIONESVER 1
+#define CALCULADORAPROG 0x20000155
+#define CALCULADORAVER 1
 
 #if defined(__STDC__) || defined(__cplusplus)
 #define sumar 1
@@ -54,7 +54,7 @@ extern  int * multiplicar_1_svc(int , int , struct svc_req *);
 #define dividir 4
 extern  int * dividir_1(int , int , CLIENT *);
 extern  int * dividir_1_svc(int , int , struct svc_req *);
-extern int operacionesprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
+extern int calculadoraprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
 #define sumar 1
@@ -69,7 +69,7 @@ extern  int * multiplicar_1_svc();
 #define dividir 4
 extern  int * dividir_1();
 extern  int * dividir_1_svc();
-extern int operacionesprog_1_freeresult ();
+extern int calculadoraprog_1_freeresult ();
 #endif /* K&R C */
 
 /* the xdr functions */
@@ -92,4 +92,4 @@ extern bool_t xdr_dividir_1_argument ();
 }
 #endif
 
-#endif /* !_DIR_H_RPCGEN */
+#endif /* !_CALCULADORA_H_RPCGEN */

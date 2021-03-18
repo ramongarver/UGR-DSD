@@ -3,7 +3,7 @@
  * It was generated using rpcgen.
  */
 
-#include "dir.h"
+#include "calculadora.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <rpc/pmap_clnt.h>
@@ -19,29 +19,29 @@
 static int *
 _sumar_1 (sumar_1_argument *argp, struct svc_req *rqstp)
 {
-	return (sumar_1_svc(argp->arg1, argp->arg2, rqstp));
+	return (sumar_1_svc(argp->a, argp->b, rqstp));
 }
 
 static int *
 _restar_1 (restar_1_argument *argp, struct svc_req *rqstp)
 {
-	return (restar_1_svc(argp->arg1, argp->arg2, rqstp));
+	return (restar_1_svc(argp->a, argp->b, rqstp));
 }
 
 static int *
 _multiplicar_1 (multiplicar_1_argument *argp, struct svc_req *rqstp)
 {
-	return (multiplicar_1_svc(argp->arg1, argp->arg2, rqstp));
+	return (multiplicar_1_svc(argp->a, argp->b, rqstp));
 }
 
 static int *
 _dividir_1 (dividir_1_argument *argp, struct svc_req *rqstp)
 {
-	return (dividir_1_svc(argp->arg1, argp->arg2, rqstp));
+	return (dividir_1_svc(argp->a, argp->b, rqstp));
 }
 
 static void
-operacionesprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
+calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
 		sumar_1_argument sumar_1_arg;
@@ -107,15 +107,15 @@ main (int argc, char **argv)
 {
 	register SVCXPRT *transp;
 
-	pmap_unset (OPERACIONESPROG, OPERACIONESVER);
+	pmap_unset (CALCULADORAPROG, CALCULADORAVER);
 
 	transp = svcudp_create(RPC_ANYSOCK);
 	if (transp == NULL) {
 		fprintf (stderr, "%s", "cannot create udp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, OPERACIONESPROG, OPERACIONESVER, operacionesprog_1, IPPROTO_UDP)) {
-		fprintf (stderr, "%s", "unable to register (OPERACIONESPROG, OPERACIONESVER, udp).");
+	if (!svc_register(transp, CALCULADORAPROG, CALCULADORAVER, calculadoraprog_1, IPPROTO_UDP)) {
+		fprintf (stderr, "%s", "unable to register (CALCULADORAPROG, CALCULADORAVER, udp).");
 		exit(1);
 	}
 
@@ -124,8 +124,8 @@ main (int argc, char **argv)
 		fprintf (stderr, "%s", "cannot create tcp service.");
 		exit(1);
 	}
-	if (!svc_register(transp, OPERACIONESPROG, OPERACIONESVER, operacionesprog_1, IPPROTO_TCP)) {
-		fprintf (stderr, "%s", "unable to register (OPERACIONESPROG, OPERACIONESVER, tcp).");
+	if (!svc_register(transp, CALCULADORAPROG, CALCULADORAVER, calculadoraprog_1, IPPROTO_TCP)) {
+		fprintf (stderr, "%s", "unable to register (CALCULADORAPROG, CALCULADORAVER, tcp).");
 		exit(1);
 	}
 
