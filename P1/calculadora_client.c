@@ -4,9 +4,22 @@
 
 void printVector(vect v, char* titulo) {
     printf("%s:\n", titulo);
-    for (unsigned int i = 0; i < v.vect_len-1; i++)
-        printf("%.2f ", v.vect_val[i]);
-    printf("%.2f\n", v.vect_val[v.vect_len-1]);
+    if (v.vect_len >= 0) {
+        for (unsigned int i = 0; i < v.vect_len-1; i++)
+            printf("%.2f ", v.vect_val[i]);
+        printf("%.2f", v.vect_val[v.vect_len-1]);
+    }
+    printf("\n");
+}
+
+void printpVector(vect *v, char* titulo) {
+    printf("%s:\n", titulo);
+    if (v->vect_len >= 0) {
+        for (unsigned int i = 0; i < v->vect_len-1; i++)
+            printf("%.2f ", v->vect_val[i]);
+        printf("%.2f", v->vect_val[v->vect_len-1]);
+    }
+    printf("\n");
 }
 
 void calculadoraprog_1(char *host, int a, char operator, int b) {
@@ -62,19 +75,25 @@ void calculadoraprog_1(char *host, int a, char operator, int b) {
     printf("Punto escalado:\n x=%.2f\ty=%.2f\tz=%.2f\n", pescalado->x, pescalado->y, pescalado->z);
 
     // Operaciones con vectores
-    vect v1, v2;
-    v1.vect_len = 16;
-    v2.vect_len = 16;
-    v1.vect_val = malloc(16 * sizeof(double));
-    v2.vect_val = malloc(16 * sizeof(double));
+    vect v1, v2, *vsuma, *vresta;
+    v1.vect_len = v2.vect_len = 16;
+    v1.vect_val = malloc(v1.vect_len * sizeof(double));
+    v2.vect_val = malloc(v2.vect_len * sizeof(double));
+
     for (unsigned int i = 0; i < v1.vect_len; i++) {
         v1.vect_val[i] = 2.0*i - 1.0;
     }
     for (unsigned int i = 0; i < v2.vect_len; i++) {
         v2.vect_val[i] = 2.0*i - 0.5*i + 2.0;
     }
+
+    vsuma = sumarvectores_1(v1, v2, clnt);
+    vresta = restarvectores_1(v1, v2, clnt);
+
     printVector(v1, "Vector 1");
     printVector(v2, "Vector 2");
+    printpVector(vsuma, "Vector suma");
+    printpVector(vresta, "Vector resta");
 
 
 #ifndef	DEBUG
