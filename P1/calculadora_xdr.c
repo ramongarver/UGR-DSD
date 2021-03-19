@@ -44,3 +44,13 @@ xdr_dividir_1_argument (XDR *xdrs, dividir_1_argument *objp)
 		 return FALSE;
 	return TRUE;
 }
+
+bool_t
+xdr_potencia_1_argument (XDR *xdrs, potencia_1_argument *objp)
+{
+	 if (!xdr_int (xdrs, &objp->a))
+		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->b))
+		 return FALSE;
+	return TRUE;
+}

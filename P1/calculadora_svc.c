@@ -40,6 +40,18 @@ _dividir_1 (dividir_1_argument *argp, struct svc_req *rqstp)
 	return (dividir_1_svc(argp->a, argp->b, rqstp));
 }
 
+static int *
+_potencia_1 (potencia_1_argument *argp, struct svc_req *rqstp)
+{
+	return (potencia_1_svc(argp->a, argp->b, rqstp));
+}
+
+static double *
+_raizcuadrada_1 (double  *argp, struct svc_req *rqstp)
+{
+	return (raizcuadrada_1_svc(*argp, rqstp));
+}
+
 static void
 calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
@@ -48,6 +60,8 @@ calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		restar_1_argument restar_1_arg;
 		multiplicar_1_argument multiplicar_1_arg;
 		dividir_1_argument dividir_1_arg;
+		potencia_1_argument potencia_1_arg;
+		double raizcuadrada_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -80,6 +94,18 @@ calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		_xdr_argument = (xdrproc_t) xdr_dividir_1_argument;
 		_xdr_result = (xdrproc_t) xdr_int;
 		local = (char *(*)(char *, struct svc_req *)) _dividir_1;
+		break;
+
+	case potencia:
+		_xdr_argument = (xdrproc_t) xdr_potencia_1_argument;
+		_xdr_result = (xdrproc_t) xdr_int;
+		local = (char *(*)(char *, struct svc_req *)) _potencia_1;
+		break;
+
+	case raizcuadrada:
+		_xdr_argument = (xdrproc_t) xdr_double;
+		_xdr_result = (xdrproc_t) xdr_double;
+		local = (char *(*)(char *, struct svc_req *)) _raizcuadrada_1;
 		break;
 
 	default:

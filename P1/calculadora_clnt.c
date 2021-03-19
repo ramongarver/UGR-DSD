@@ -76,3 +76,35 @@ dividir_1(int a, int b,  CLIENT *clnt)
 	}
 	return (&clnt_res);
 }
+
+int *
+potencia_1(int a, int b,  CLIENT *clnt)
+{
+	potencia_1_argument arg;
+	static int clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.a = a;
+	arg.b = b;
+	if (clnt_call (clnt, potencia, (xdrproc_t) xdr_potencia_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_int, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+double *
+raizcuadrada_1(double a,  CLIENT *clnt)
+{
+	static double clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	if (clnt_call (clnt, raizcuadrada,
+		(xdrproc_t) xdr_double, (caddr_t) &a,
+		(xdrproc_t) xdr_double, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}

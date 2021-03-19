@@ -38,7 +38,13 @@ struct dividir_1_argument {
 };
 typedef struct dividir_1_argument dividir_1_argument;
 
-#define CALCULADORAPROG 0x20000155
+struct potencia_1_argument {
+	int a;
+	int b;
+};
+typedef struct potencia_1_argument potencia_1_argument;
+
+#define CALCULADORAPROG 0x20000000
 #define CALCULADORAVER 1
 
 #if defined(__STDC__) || defined(__cplusplus)
@@ -54,6 +60,12 @@ extern  int * multiplicar_1_svc(int , int , struct svc_req *);
 #define dividir 4
 extern  int * dividir_1(int , int , CLIENT *);
 extern  int * dividir_1_svc(int , int , struct svc_req *);
+#define potencia 5
+extern  int * potencia_1(int , int , CLIENT *);
+extern  int * potencia_1_svc(int , int , struct svc_req *);
+#define raizcuadrada 6
+extern  double * raizcuadrada_1(double , CLIENT *);
+extern  double * raizcuadrada_1_svc(double , struct svc_req *);
 extern int calculadoraprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
@@ -69,6 +81,12 @@ extern  int * multiplicar_1_svc();
 #define dividir 4
 extern  int * dividir_1();
 extern  int * dividir_1_svc();
+#define potencia 5
+extern  int * potencia_1();
+extern  int * potencia_1_svc();
+#define raizcuadrada 6
+extern  double * raizcuadrada_1();
+extern  double * raizcuadrada_1_svc();
 extern int calculadoraprog_1_freeresult ();
 #endif /* K&R C */
 
@@ -79,12 +97,14 @@ extern  bool_t xdr_sumar_1_argument (XDR *, sumar_1_argument*);
 extern  bool_t xdr_restar_1_argument (XDR *, restar_1_argument*);
 extern  bool_t xdr_multiplicar_1_argument (XDR *, multiplicar_1_argument*);
 extern  bool_t xdr_dividir_1_argument (XDR *, dividir_1_argument*);
+extern  bool_t xdr_potencia_1_argument (XDR *, potencia_1_argument*);
 
 #else /* K&R C */
 extern bool_t xdr_sumar_1_argument ();
 extern bool_t xdr_restar_1_argument ();
 extern bool_t xdr_multiplicar_1_argument ();
 extern bool_t xdr_dividir_1_argument ();
+extern bool_t xdr_potencia_1_argument ();
 
 #endif /* K&R C */
 
