@@ -6,6 +6,41 @@
 #include "calculadora.h"
 
 bool_t
+xdr_point (XDR *xdrs, point *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_double (xdrs, &objp->x))
+		 return FALSE;
+	 if (!xdr_double (xdrs, &objp->y))
+		 return FALSE;
+	 if (!xdr_double (xdrs, &objp->z))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_vect (XDR *xdrs, vect *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_array (xdrs, (char **)&objp->vect_val, (u_int *) &objp->vect_len, 32,
+		sizeof (double), (xdrproc_t) xdr_double))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_password (XDR *xdrs, password *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_string (xdrs, objp, 32))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
 xdr_sumar_1_argument (XDR *xdrs, sumar_1_argument *objp)
 {
 	 if (!xdr_int (xdrs, &objp->a))
@@ -51,6 +86,54 @@ xdr_potencia_1_argument (XDR *xdrs, potencia_1_argument *objp)
 	 if (!xdr_int (xdrs, &objp->a))
 		 return FALSE;
 	 if (!xdr_int (xdrs, &objp->b))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_transladar_1_argument (XDR *xdrs, transladar_1_argument *objp)
+{
+	 if (!xdr_point (xdrs, &objp->p))
+		 return FALSE;
+	 if (!xdr_double (xdrs, &objp->x))
+		 return FALSE;
+	 if (!xdr_double (xdrs, &objp->y))
+		 return FALSE;
+	 if (!xdr_double (xdrs, &objp->z))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_escalar_1_argument (XDR *xdrs, escalar_1_argument *objp)
+{
+	 if (!xdr_point (xdrs, &objp->p))
+		 return FALSE;
+	 if (!xdr_double (xdrs, &objp->x))
+		 return FALSE;
+	 if (!xdr_double (xdrs, &objp->y))
+		 return FALSE;
+	 if (!xdr_double (xdrs, &objp->z))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_sumarvectores_1_argument (XDR *xdrs, sumarvectores_1_argument *objp)
+{
+	 if (!xdr_vect (xdrs, &objp->v1))
+		 return FALSE;
+	 if (!xdr_vect (xdrs, &objp->v2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_restarvectores_1_argument (XDR *xdrs, restarvectores_1_argument *objp)
+{
+	 if (!xdr_vect (xdrs, &objp->v1))
+		 return FALSE;
+	 if (!xdr_vect (xdrs, &objp->v2))
 		 return FALSE;
 	return TRUE;
 }

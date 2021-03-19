@@ -52,6 +52,42 @@ _raizcuadrada_1 (double  *argp, struct svc_req *rqstp)
 	return (raizcuadrada_1_svc(*argp, rqstp));
 }
 
+static point *
+_transladar_1 (transladar_1_argument *argp, struct svc_req *rqstp)
+{
+	return (transladar_1_svc(argp->p, argp->x, argp->y, argp->z, rqstp));
+}
+
+static point *
+_escalar_1 (escalar_1_argument *argp, struct svc_req *rqstp)
+{
+	return (escalar_1_svc(argp->p, argp->x, argp->y, argp->z, rqstp));
+}
+
+static vect *
+_sumarvectores_1 (sumarvectores_1_argument *argp, struct svc_req *rqstp)
+{
+	return (sumarvectores_1_svc(argp->v1, argp->v2, rqstp));
+}
+
+static vect *
+_restarvectores_1 (restarvectores_1_argument *argp, struct svc_req *rqstp)
+{
+	return (restarvectores_1_svc(argp->v1, argp->v2, rqstp));
+}
+
+static char **
+_cifrar_1 (char * *argp, struct svc_req *rqstp)
+{
+	return (cifrar_1_svc(*argp, rqstp));
+}
+
+static char **
+_descifrar_1 (char * *argp, struct svc_req *rqstp)
+{
+	return (descifrar_1_svc(*argp, rqstp));
+}
+
 static void
 calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
@@ -62,6 +98,12 @@ calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		dividir_1_argument dividir_1_arg;
 		potencia_1_argument potencia_1_arg;
 		double raizcuadrada_1_arg;
+		transladar_1_argument transladar_1_arg;
+		escalar_1_argument escalar_1_arg;
+		sumarvectores_1_argument sumarvectores_1_arg;
+		restarvectores_1_argument restarvectores_1_arg;
+		char *cifrar_1_arg;
+		char *descifrar_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -106,6 +148,42 @@ calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		_xdr_argument = (xdrproc_t) xdr_double;
 		_xdr_result = (xdrproc_t) xdr_double;
 		local = (char *(*)(char *, struct svc_req *)) _raizcuadrada_1;
+		break;
+
+	case transladar:
+		_xdr_argument = (xdrproc_t) xdr_transladar_1_argument;
+		_xdr_result = (xdrproc_t) xdr_point;
+		local = (char *(*)(char *, struct svc_req *)) _transladar_1;
+		break;
+
+	case escalar:
+		_xdr_argument = (xdrproc_t) xdr_escalar_1_argument;
+		_xdr_result = (xdrproc_t) xdr_point;
+		local = (char *(*)(char *, struct svc_req *)) _escalar_1;
+		break;
+
+	case sumarvectores:
+		_xdr_argument = (xdrproc_t) xdr_sumarvectores_1_argument;
+		_xdr_result = (xdrproc_t) xdr_vect;
+		local = (char *(*)(char *, struct svc_req *)) _sumarvectores_1;
+		break;
+
+	case restarvectores:
+		_xdr_argument = (xdrproc_t) xdr_restarvectores_1_argument;
+		_xdr_result = (xdrproc_t) xdr_vect;
+		local = (char *(*)(char *, struct svc_req *)) _restarvectores_1;
+		break;
+
+	case cifrar:
+		_xdr_argument = (xdrproc_t) xdr_wrapstring;
+		_xdr_result = (xdrproc_t) xdr_wrapstring;
+		local = (char *(*)(char *, struct svc_req *)) _cifrar_1;
+		break;
+
+	case descifrar:
+		_xdr_argument = (xdrproc_t) xdr_wrapstring;
+		_xdr_result = (xdrproc_t) xdr_wrapstring;
+		local = (char *(*)(char *, struct svc_req *)) _descifrar_1;
 		break;
 
 	default:

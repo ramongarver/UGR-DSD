@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include "calculadora.h"
 
+void printVector(vect v, char* titulo) {
+    printf("%s:\n", titulo);
+    for (unsigned int i = 0; i < v.vect_len-1; i++)
+        printf("%.2f ", v.vect_val[i]);
+    printf("%.2f\n", v.vect_val[v.vect_len-1]);
+}
 
 void calculadoraprog_1(char *host, int a, char operator, int b) {
     CLIENT *clnt;
@@ -45,9 +51,33 @@ void calculadoraprog_1(char *host, int a, char operator, int b) {
     else
         printf("sqrt(%.4f) = %.4f\n", (double)a, *dresult);
 
+    // Operaciones geométricas
+    point p;
+    p.x = 1.0; p.y = 3.5; p.z = 2.2;
+    point *ptransladado = transladar_1(p, 3.0, -3.5, 0.8, clnt);;
+    point *pescalado = escalar_1(p, 1.5, 0.75, 1.25, clnt);
+
+    printf("Punto inicial:\n x=%.2f\ty=%.2f\tz=%.2f\n", p.x, p.y, p.z);
+    printf("Punto transladado:\n x=%.2f\ty=%.2f\tz=%.2f\n", ptransladado->x, ptransladado->y, ptransladado->z);
+    printf("Punto escalado:\n x=%.2f\ty=%.2f\tz=%.2f\n", pescalado->x, pescalado->y, pescalado->z);
+
+    // Operaciones con vectores
+    vect v1, v2;
+    v1.vect_len = 16;
+    v2.vect_len = 16;
+    v1.vect_val = malloc(16 * sizeof(double));
+    v2.vect_val = malloc(16 * sizeof(double));
+    for (unsigned int i = 0; i < v1.vect_len; i++) {
+        v1.vect_val[i] = 2.0*i - 1.0;
+    }
+    for (unsigned int i = 0; i < v2.vect_len; i++) {
+        v2.vect_val[i] = 2.0*i - 0.5*i + 2.0;
+    }
+    printVector(v1, "Vector 1");
+    printVector(v2, "Vector 2");
 
 
-    #ifndef	DEBUG
+#ifndef	DEBUG
         clnt_destroy (clnt);
     #endif	 /* DEBUG */
 }

@@ -4,6 +4,9 @@ struct point {
     double z;
 };
 
+typedef double vect<32>;
+typedef string password<32>;
+
 program CALCULADORAPROG {
 	version CALCULADORAVER {
 		int sumar (int a, int b) = 1;
@@ -14,6 +17,9 @@ program CALCULADORAPROG {
 		double raizcuadrada (double a) = 6;
 		point transladar(point p, double x, double y, double z) = 7;
 		point escalar(point p, double x, double y, double z) = 8;
-		point rotate(point p, double x_angle, double y_angle, double z_angle) = 9;
+		vect sumarvectores(vect v1, vect v2) = 9;
+		vect restarvectores(vect v1, vect v2) = 10;
+		string cifrar(string password) = 11;
+		string descifrar(string password) = 12;
 	} = 1;
 } = 0x20000000;

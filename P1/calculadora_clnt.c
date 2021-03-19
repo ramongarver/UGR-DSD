@@ -108,3 +108,105 @@ raizcuadrada_1(double a,  CLIENT *clnt)
 	}
 	return (&clnt_res);
 }
+
+point *
+transladar_1(point p, double x, double y, double z,  CLIENT *clnt)
+{
+	transladar_1_argument arg;
+	static point clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.p = p;
+	arg.x = x;
+	arg.y = y;
+	arg.z = z;
+	if (clnt_call (clnt, transladar, (xdrproc_t) xdr_transladar_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_point, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+point *
+escalar_1(point p, double x, double y, double z,  CLIENT *clnt)
+{
+	escalar_1_argument arg;
+	static point clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.p = p;
+	arg.x = x;
+	arg.y = y;
+	arg.z = z;
+	if (clnt_call (clnt, escalar, (xdrproc_t) xdr_escalar_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_point, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+vect *
+sumarvectores_1(vect v1, vect v2,  CLIENT *clnt)
+{
+	sumarvectores_1_argument arg;
+	static vect clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.v1 = v1;
+	arg.v2 = v2;
+	if (clnt_call (clnt, sumarvectores, (xdrproc_t) xdr_sumarvectores_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_vect, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+vect *
+restarvectores_1(vect v1, vect v2,  CLIENT *clnt)
+{
+	restarvectores_1_argument arg;
+	static vect clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.v1 = v1;
+	arg.v2 = v2;
+	if (clnt_call (clnt, restarvectores, (xdrproc_t) xdr_restarvectores_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_vect, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+char **
+cifrar_1(char *password,  CLIENT *clnt)
+{
+	static char *clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	if (clnt_call (clnt, cifrar,
+		(xdrproc_t) xdr_wrapstring, (caddr_t) &password,
+		(xdrproc_t) xdr_wrapstring, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+char **
+descifrar_1(char *password,  CLIENT *clnt)
+{
+	static char *clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	if (clnt_call (clnt, descifrar,
+		(xdrproc_t) xdr_wrapstring, (caddr_t) &password,
+		(xdrproc_t) xdr_wrapstring, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
