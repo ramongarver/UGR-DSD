@@ -57,13 +57,13 @@ void calculadoraprog_1(char *host, int a, char operator, int b) {
             break;
     }
 
-
     // Impresión del resultado de la operación
     printf("Operación realizada:\n");
     if (operator != 'r')
         printf("%d %c %d = %d\n", a, operator, b, *iresult);
     else
         printf("sqrt(%.4f) = %.4f\n", (double)a, *dresult);
+
 
     // Operaciones geométricas
     point p;
@@ -74,6 +74,7 @@ void calculadoraprog_1(char *host, int a, char operator, int b) {
     printf("Punto inicial:\n x=%.2f\ty=%.2f\tz=%.2f\n", p.x, p.y, p.z);
     printf("Punto transladado:\n x=%.2f\ty=%.2f\tz=%.2f\n", ptransladado->x, ptransladado->y, ptransladado->z);
     printf("Punto escalado:\n x=%.2f\ty=%.2f\tz=%.2f\n", pescalado->x, pescalado->y, pescalado->z);
+
 
     // Operaciones con vectores
     vect v1, v2, *vsuma, *vresta, *vmultiplicacion, *vdivision;
@@ -97,6 +98,17 @@ void calculadoraprog_1(char *host, int a, char operator, int b) {
     printpVector(vmultiplicacion, "Vector multiplicación");
     printpVector(vdivision, "Vector división");
 
+
+    // Cifrado y descifrado
+    char *password = "abretesesamo";
+    char **encryptedPassword;
+    char **desencryptedPassword;
+
+    printf("Contraseña sin cifrar: %s\n", password);
+    encryptedPassword = cifrar_1(password, clnt);
+    printf("Contraseña cifrada: %s\n", *encryptedPassword);
+    desencryptedPassword = descifrar_1(*encryptedPassword, clnt);
+    printf("Contraseña descifrada: %s\n", *desencryptedPassword);
 
     #ifndef	DEBUG
         clnt_destroy (clnt);

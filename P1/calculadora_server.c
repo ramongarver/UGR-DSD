@@ -122,11 +122,21 @@ vect *dividirvectores_1_svc(vect v1, vect v2, struct svc_req *rqstp) {
 char **cifrar_1_svc(char *password, struct svc_req *rqstp) {
     static char* result;
 
+    for (unsigned int i = 0; password[i] != '\0'; i++)
+        password[i] -= 30;
+
+    result = password;
+
     return &result;
 };
 
 char **descifrar_1_svc(char *password, struct svc_req *rqstp) {
     static char* result;
+
+    for (unsigned int i = 0; password[i] != '\0'; i++)
+        password[i] += 30;
+
+    result = password;
 
     return &result;
 };
