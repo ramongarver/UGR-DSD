@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "calculadora.h"
+
+void generarVector(vect v) {
+    for (unsigned int i = 0; i < v.vect_len; i++)
+        v.vect_val[i] = (double) (rand() % 10 + ((double) (1 + rand() % 9) / 10));
+}
 
 void printVector(vect v, char* titulo) {
     printf("%s:\n", titulo);
@@ -13,13 +19,8 @@ void printVector(vect v, char* titulo) {
 }
 
 void printpVector(vect *v, char* titulo) {
-    printf("%s:\n", titulo);
-    if (v->vect_len >= 0) {
-        for (unsigned int i = 0; i < v->vect_len-1; i++)
-            printf("%.2f ", v->vect_val[i]);
-        printf("%.2f", v->vect_val[v->vect_len-1]);
-    }
-    printf("\n");
+    vect vector = *v;
+    printVector(vector, titulo);
 }
 
 void calculadoraprog_1(char *host, int a, char operator, int b) {
@@ -67,7 +68,7 @@ void calculadoraprog_1(char *host, int a, char operator, int b) {
     // Operaciones geométricas
     point p;
     p.x = 1.0; p.y = 3.5; p.z = 2.2;
-    point *ptransladado = transladar_1(p, 3.0, -3.5, 0.8, clnt);;
+    point *ptransladado = transladar_1(p, 3.0, -3.5, 0.8, clnt);
     point *pescalado = escalar_1(p, 1.5, 0.75, 1.25, clnt);
 
     printf("Punto inicial:\n x=%.2f\ty=%.2f\tz=%.2f\n", p.x, p.y, p.z);
@@ -75,28 +76,29 @@ void calculadoraprog_1(char *host, int a, char operator, int b) {
     printf("Punto escalado:\n x=%.2f\ty=%.2f\tz=%.2f\n", pescalado->x, pescalado->y, pescalado->z);
 
     // Operaciones con vectores
-    vect v1, v2, *vsuma, *vresta;
+    vect v1, v2, *vsuma, *vresta, *vmultiplicacion, *vdivision;
     v1.vect_len = v2.vect_len = 16;
     v1.vect_val = malloc(v1.vect_len * sizeof(double));
     v2.vect_val = malloc(v2.vect_len * sizeof(double));
 
-    for (unsigned int i = 0; i < v1.vect_len; i++) {
-        v1.vect_val[i] = 2.0*i - 1.0;
-    }
-    for (unsigned int i = 0; i < v2.vect_len; i++) {
-        v2.vect_val[i] = 2.0*i - 0.5*i + 2.0;
-    }
+    srand(time(NULL));
+    generarVector(v1);
+    generarVector(v2);
 
     vsuma = sumarvectores_1(v1, v2, clnt);
     vresta = restarvectores_1(v1, v2, clnt);
+    vmultiplicacion = multiplicarvectores_1(v1, v2, clnt);
+    vdivision = dividirvectores_1(v1, v2, clnt);
 
     printVector(v1, "Vector 1");
     printVector(v2, "Vector 2");
     printpVector(vsuma, "Vector suma");
     printpVector(vresta, "Vector resta");
+    printpVector(vmultiplicacion, "Vector multiplicación");
+    printpVector(vdivision, "Vector división");
 
 
-#ifndef	DEBUG
+    #ifndef	DEBUG
         clnt_destroy (clnt);
     #endif	 /* DEBUG */
 }

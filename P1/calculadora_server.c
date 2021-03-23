@@ -91,6 +91,34 @@ vect *restarvectores_1_svc(vect v1, vect v2, struct svc_req *rqstp) {
     return &result;
 }
 
+vect *multiplicarvectores_1_svc(vect v1, vect v2, struct svc_req *rqstp) {
+    static vect result;
+    if (v1.vect_len == v2.vect_len) {
+        result.vect_len = v1.vect_len;
+        result.vect_val = malloc(result.vect_len * sizeof(double));
+        for (unsigned int i = 0; i < v1.vect_len; i++)
+            result.vect_val[i] = v1.vect_val[i] * v2.vect_val[i];
+    }
+    else
+        result.vect_len = -1;
+
+    return &result;
+}
+
+vect *dividirvectores_1_svc(vect v1, vect v2, struct svc_req *rqstp) {
+    static vect result;
+    if (v1.vect_len == v2.vect_len) {
+        result.vect_len = v1.vect_len;
+        result.vect_val = malloc(result.vect_len * sizeof(double));
+        for (unsigned int i = 0; i < v1.vect_len; i++)
+            result.vect_val[i] = v1.vect_val[i] / v2.vect_val[i];
+    }
+    else
+        result.vect_len = -1;
+
+    return &result;
+}
+
 char **cifrar_1_svc(char *password, struct svc_req *rqstp) {
     static char* result;
 

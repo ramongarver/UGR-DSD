@@ -137,3 +137,23 @@ xdr_restarvectores_1_argument (XDR *xdrs, restarvectores_1_argument *objp)
 		 return FALSE;
 	return TRUE;
 }
+
+bool_t
+xdr_multiplicarvectores_1_argument (XDR *xdrs, multiplicarvectores_1_argument *objp)
+{
+	 if (!xdr_vect (xdrs, &objp->v1))
+		 return FALSE;
+	 if (!xdr_vect (xdrs, &objp->v2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_dividirvectores_1_argument (XDR *xdrs, dividirvectores_1_argument *objp)
+{
+	 if (!xdr_vect (xdrs, &objp->v1))
+		 return FALSE;
+	 if (!xdr_vect (xdrs, &objp->v2))
+		 return FALSE;
+	return TRUE;
+}

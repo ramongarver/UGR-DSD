@@ -86,6 +86,18 @@ struct restarvectores_1_argument {
 };
 typedef struct restarvectores_1_argument restarvectores_1_argument;
 
+struct multiplicarvectores_1_argument {
+	vect v1;
+	vect v2;
+};
+typedef struct multiplicarvectores_1_argument multiplicarvectores_1_argument;
+
+struct dividirvectores_1_argument {
+	vect v1;
+	vect v2;
+};
+typedef struct dividirvectores_1_argument dividirvectores_1_argument;
+
 #define CALCULADORAPROG 0x20000000
 #define CALCULADORAVER 1
 
@@ -114,16 +126,22 @@ extern  point * transladar_1_svc(point , double , double , double , struct svc_r
 #define escalar 8
 extern  point * escalar_1(point , double , double , double , CLIENT *);
 extern  point * escalar_1_svc(point , double , double , double , struct svc_req *);
-#define sumarvectores 9
+#define sumarVectores 9
 extern  vect * sumarvectores_1(vect , vect , CLIENT *);
 extern  vect * sumarvectores_1_svc(vect , vect , struct svc_req *);
-#define restarvectores 10
+#define restarVectores 10
 extern  vect * restarvectores_1(vect , vect , CLIENT *);
 extern  vect * restarvectores_1_svc(vect , vect , struct svc_req *);
-#define cifrar 11
+#define multiplicarVectores 11
+extern  vect * multiplicarvectores_1(vect , vect , CLIENT *);
+extern  vect * multiplicarvectores_1_svc(vect , vect , struct svc_req *);
+#define dividirVectores 12
+extern  vect * dividirvectores_1(vect , vect , CLIENT *);
+extern  vect * dividirvectores_1_svc(vect , vect , struct svc_req *);
+#define cifrar 13
 extern  char ** cifrar_1(char *, CLIENT *);
 extern  char ** cifrar_1_svc(char *, struct svc_req *);
-#define descifrar 12
+#define descifrar 14
 extern  char ** descifrar_1(char *, CLIENT *);
 extern  char ** descifrar_1_svc(char *, struct svc_req *);
 extern int calculadoraprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
@@ -153,16 +171,22 @@ extern  point * transladar_1_svc();
 #define escalar 8
 extern  point * escalar_1();
 extern  point * escalar_1_svc();
-#define sumarvectores 9
+#define sumarVectores 9
 extern  vect * sumarvectores_1();
 extern  vect * sumarvectores_1_svc();
-#define restarvectores 10
+#define restarVectores 10
 extern  vect * restarvectores_1();
 extern  vect * restarvectores_1_svc();
-#define cifrar 11
+#define multiplicarVectores 11
+extern  vect * multiplicarvectores_1();
+extern  vect * multiplicarvectores_1_svc();
+#define dividirVectores 12
+extern  vect * dividirvectores_1();
+extern  vect * dividirvectores_1_svc();
+#define cifrar 13
 extern  char ** cifrar_1();
 extern  char ** cifrar_1_svc();
-#define descifrar 12
+#define descifrar 14
 extern  char ** descifrar_1();
 extern  char ** descifrar_1_svc();
 extern int calculadoraprog_1_freeresult ();
@@ -183,6 +207,8 @@ extern  bool_t xdr_transladar_1_argument (XDR *, transladar_1_argument*);
 extern  bool_t xdr_escalar_1_argument (XDR *, escalar_1_argument*);
 extern  bool_t xdr_sumarvectores_1_argument (XDR *, sumarvectores_1_argument*);
 extern  bool_t xdr_restarvectores_1_argument (XDR *, restarvectores_1_argument*);
+extern  bool_t xdr_multiplicarvectores_1_argument (XDR *, multiplicarvectores_1_argument*);
+extern  bool_t xdr_dividirvectores_1_argument (XDR *, dividirvectores_1_argument*);
 
 #else /* K&R C */
 extern bool_t xdr_point ();
@@ -197,6 +223,8 @@ extern bool_t xdr_transladar_1_argument ();
 extern bool_t xdr_escalar_1_argument ();
 extern bool_t xdr_sumarvectores_1_argument ();
 extern bool_t xdr_restarvectores_1_argument ();
+extern bool_t xdr_multiplicarvectores_1_argument ();
+extern bool_t xdr_dividirvectores_1_argument ();
 
 #endif /* K&R C */
 
