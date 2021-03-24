@@ -18,9 +18,21 @@ void printVector(vect v, char* titulo) {
     printf("\n");
 }
 
-void printpVector(vect *v, char* titulo) {
-    vect vector = *v;
-    printVector(vector, titulo);
+void generarMatriz(matrix m) {
+    for (unsigned int i = 0; i < m.matrix_len; i++)
+        for (unsigned int j = 0; j < m.matrix_val[i].vect_len; j++)
+            m.matrix_val[i].vect_val[j] = (double) (rand() % 10 + ((double) (1 + rand() % 9) / 10));
+}
+
+void printMatriz(matrix m, char* titulo) {
+    printf("%s:\n", titulo);
+    if (m.matrix_len >= 0) {
+        for (unsigned int i = 0; i < m.matrix_len; i++) {
+            for (unsigned int j = 0; j < m.matrix_val[i].vect_len-1; j++)
+                printf("%.2f\t", m.matrix_val[i].vect_val[j]);
+            printf("%.2f\n", m.matrix_val[i].vect_val[m.matrix_val[i].vect_len-1]);
+        }
+    }
 }
 
 void calculadoraprog_1(char *host, int a, char operator, int b) {
@@ -91,12 +103,39 @@ void calculadoraprog_1(char *host, int a, char operator, int b) {
     vmultiplicacion = multiplicarvectores_1(v1, v2, clnt);
     vdivision = dividirvectores_1(v1, v2, clnt);
 
-    printVector(v1, "Vector 1");
-    printVector(v2, "Vector 2");
-    printpVector(vsuma, "Vector suma");
-    printpVector(vresta, "Vector resta");
-    printpVector(vmultiplicacion, "Vector multiplicación");
-    printpVector(vdivision, "Vector división");
+    printVector(v1, "Vector 1 (A)");
+    printVector(v2, "Vector 2 (B)");
+    printVector(*vsuma, "Vector suma (A+B)");
+    printVector(*vresta, "Vector resta (A-B)");
+    printVector(*vmultiplicacion, "Vector multiplicación (AxB)");
+    printVector(*vdivision, "Vector división (A/B)");
+
+
+    // Operaciones con matrices
+    matrix m1, m2, *msuma, *mresta, *mmultiplicacion;
+    m1.matrix_len = m2.matrix_len = 3;
+        // Reservamos memoria para punteros a vect
+    m1.matrix_val = malloc(m1.matrix_len * sizeof(vect*));
+    m2.matrix_val = malloc(m2.matrix_len * sizeof(vect*));
+        // Reservamos memoria para cada uno de los vect
+    for (unsigned int i = 0; i < m1.matrix_len; i++) {
+        m1.matrix_val[i].vect_len = m2.matrix_val[i].vect_len = 3;
+        m1.matrix_val[i].vect_val = malloc(m1.matrix_val[i].vect_len * sizeof(double));
+        m2.matrix_val[i].vect_val = malloc(m2.matrix_val[i].vect_len * sizeof(double));
+    }
+
+    generarMatriz(m1);
+    generarMatriz(m2);
+
+    // msuma = sumarmatrices_1(m1, m2, clnt);
+    // mresta = restarmatrices_1(m1, m2, clnt);
+    // mmultiplicacion = multiplicarmatrices_1(m1, m2, clnt);
+
+    printMatriz(m1, "Matriz 1 (A)");
+    printMatriz(m2, "Matriz 2 (B)");
+    // printMatriz(*msuma, "Matriz suma (A+B)");
+    // printMatriz(*mresta, "Matriz resta (A-B)");
+    // printMatriz(*mmultiplicacion, "Matriz multiplicación (A*B)");
 
 
     // Cifrado y descifrado

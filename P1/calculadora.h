@@ -26,6 +26,11 @@ typedef struct {
 	double *vect_val;
 } vect;
 
+typedef struct {
+	u_int matrix_len;
+	vect *matrix_val;
+} matrix;
+
 typedef char *password;
 
 struct sumar_1_argument {
@@ -98,6 +103,24 @@ struct dividirvectores_1_argument {
 };
 typedef struct dividirvectores_1_argument dividirvectores_1_argument;
 
+struct sumarmatrices_1_argument {
+	matrix m1;
+	matrix m2;
+};
+typedef struct sumarmatrices_1_argument sumarmatrices_1_argument;
+
+struct restarmatrices_1_argument {
+	matrix m1;
+	matrix m2;
+};
+typedef struct restarmatrices_1_argument restarmatrices_1_argument;
+
+struct multiplicarmatrices_1_argument {
+	matrix m1;
+	matrix m2;
+};
+typedef struct multiplicarmatrices_1_argument multiplicarmatrices_1_argument;
+
 #define CALCULADORAPROG 0x20000000
 #define CALCULADORAVER 1
 
@@ -126,22 +149,31 @@ extern  point * transladar_1_svc(point , double , double , double , struct svc_r
 #define escalar 8
 extern  point * escalar_1(point , double , double , double , CLIENT *);
 extern  point * escalar_1_svc(point , double , double , double , struct svc_req *);
-#define sumarVectores 9
+#define sumarvectores 9
 extern  vect * sumarvectores_1(vect , vect , CLIENT *);
 extern  vect * sumarvectores_1_svc(vect , vect , struct svc_req *);
-#define restarVectores 10
+#define restarvectores 10
 extern  vect * restarvectores_1(vect , vect , CLIENT *);
 extern  vect * restarvectores_1_svc(vect , vect , struct svc_req *);
-#define multiplicarVectores 11
+#define multiplicarvectores 11
 extern  vect * multiplicarvectores_1(vect , vect , CLIENT *);
 extern  vect * multiplicarvectores_1_svc(vect , vect , struct svc_req *);
-#define dividirVectores 12
+#define dividirvectores 12
 extern  vect * dividirvectores_1(vect , vect , CLIENT *);
 extern  vect * dividirvectores_1_svc(vect , vect , struct svc_req *);
-#define cifrar 13
+#define sumarmatrices 13
+extern  matrix * sumarmatrices_1(matrix , matrix , CLIENT *);
+extern  matrix * sumarmatrices_1_svc(matrix , matrix , struct svc_req *);
+#define restarmatrices 14
+extern  matrix * restarmatrices_1(matrix , matrix , CLIENT *);
+extern  matrix * restarmatrices_1_svc(matrix , matrix , struct svc_req *);
+#define multiplicarmatrices 15
+extern  matrix * multiplicarmatrices_1(matrix , matrix , CLIENT *);
+extern  matrix * multiplicarmatrices_1_svc(matrix , matrix , struct svc_req *);
+#define cifrar 16
 extern  char ** cifrar_1(char *, CLIENT *);
 extern  char ** cifrar_1_svc(char *, struct svc_req *);
-#define descifrar 14
+#define descifrar 17
 extern  char ** descifrar_1(char *, CLIENT *);
 extern  char ** descifrar_1_svc(char *, struct svc_req *);
 extern int calculadoraprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
@@ -171,22 +203,31 @@ extern  point * transladar_1_svc();
 #define escalar 8
 extern  point * escalar_1();
 extern  point * escalar_1_svc();
-#define sumarVectores 9
+#define sumarvectores 9
 extern  vect * sumarvectores_1();
 extern  vect * sumarvectores_1_svc();
-#define restarVectores 10
+#define restarvectores 10
 extern  vect * restarvectores_1();
 extern  vect * restarvectores_1_svc();
-#define multiplicarVectores 11
+#define multiplicarvectores 11
 extern  vect * multiplicarvectores_1();
 extern  vect * multiplicarvectores_1_svc();
-#define dividirVectores 12
+#define dividirvectores 12
 extern  vect * dividirvectores_1();
 extern  vect * dividirvectores_1_svc();
-#define cifrar 13
+#define sumarmatrices 13
+extern  matrix * sumarmatrices_1();
+extern  matrix * sumarmatrices_1_svc();
+#define restarmatrices 14
+extern  matrix * restarmatrices_1();
+extern  matrix * restarmatrices_1_svc();
+#define multiplicarmatrices 15
+extern  matrix * multiplicarmatrices_1();
+extern  matrix * multiplicarmatrices_1_svc();
+#define cifrar 16
 extern  char ** cifrar_1();
 extern  char ** cifrar_1_svc();
-#define descifrar 14
+#define descifrar 17
 extern  char ** descifrar_1();
 extern  char ** descifrar_1_svc();
 extern int calculadoraprog_1_freeresult ();
@@ -197,6 +238,7 @@ extern int calculadoraprog_1_freeresult ();
 #if defined(__STDC__) || defined(__cplusplus)
 extern  bool_t xdr_point (XDR *, point*);
 extern  bool_t xdr_vect (XDR *, vect*);
+extern  bool_t xdr_matrix (XDR *, matrix*);
 extern  bool_t xdr_password (XDR *, password*);
 extern  bool_t xdr_sumar_1_argument (XDR *, sumar_1_argument*);
 extern  bool_t xdr_restar_1_argument (XDR *, restar_1_argument*);
@@ -209,10 +251,14 @@ extern  bool_t xdr_sumarvectores_1_argument (XDR *, sumarvectores_1_argument*);
 extern  bool_t xdr_restarvectores_1_argument (XDR *, restarvectores_1_argument*);
 extern  bool_t xdr_multiplicarvectores_1_argument (XDR *, multiplicarvectores_1_argument*);
 extern  bool_t xdr_dividirvectores_1_argument (XDR *, dividirvectores_1_argument*);
+extern  bool_t xdr_sumarmatrices_1_argument (XDR *, sumarmatrices_1_argument*);
+extern  bool_t xdr_restarmatrices_1_argument (XDR *, restarmatrices_1_argument*);
+extern  bool_t xdr_multiplicarmatrices_1_argument (XDR *, multiplicarmatrices_1_argument*);
 
 #else /* K&R C */
 extern bool_t xdr_point ();
 extern bool_t xdr_vect ();
+extern bool_t xdr_matrix ();
 extern bool_t xdr_password ();
 extern bool_t xdr_sumar_1_argument ();
 extern bool_t xdr_restar_1_argument ();
@@ -225,6 +271,9 @@ extern bool_t xdr_sumarvectores_1_argument ();
 extern bool_t xdr_restarvectores_1_argument ();
 extern bool_t xdr_multiplicarvectores_1_argument ();
 extern bool_t xdr_dividirvectores_1_argument ();
+extern bool_t xdr_sumarmatrices_1_argument ();
+extern bool_t xdr_restarmatrices_1_argument ();
+extern bool_t xdr_multiplicarmatrices_1_argument ();
 
 #endif /* K&R C */
 

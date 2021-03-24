@@ -119,6 +119,65 @@ vect *dividirvectores_1_svc(vect v1, vect v2, struct svc_req *rqstp) {
     return &result;
 }
 
+matrix *sumarmatrices_1_svc(matrix m1, matrix m2, struct svc_req *rqstp) {
+    static matrix result;
+    if (m1.matrix_len == m2.matrix_len) {
+        result.matrix_len = m1.matrix_len;
+        result.matrix_val = malloc(result.matrix_len * sizeof(vect*));
+        for (unsigned int i = 0; i < result.matrix_len; i++) {
+            result.matrix_val[i].vect_len = m1.matrix_val[i].vect_len;
+            result.matrix_val[i].vect_val = malloc(result.matrix_val[i].vect_len * sizeof(double));
+            for (unsigned int j = 0; j < result.matrix_val[i].vect_len; j++) {
+                result.matrix_val[i].vect_val[j] = m1.matrix_val[i].vect_val[j] + m2.matrix_val[i].vect_val[j];
+            }
+        }
+    }
+    else
+        result.matrix_len = -1;
+
+    return &result;
+}
+
+matrix *restarmatrices_1_svc(matrix m1, matrix m2, struct svc_req *rqstp) {
+    static matrix result;
+    if (m1.matrix_len == m2.matrix_len) {
+        result.matrix_len = m1.matrix_len;
+        result.matrix_val = malloc(result.matrix_len * sizeof(vect*));
+        for (unsigned int i = 0; i < result.matrix_len; i++) {
+            result.matrix_val[i].vect_len = m1.matrix_val[i].vect_len;
+            result.matrix_val[i].vect_val = malloc(result.matrix_val[i].vect_len * sizeof(double));
+            for (unsigned int j = 0; j < result.matrix_val[i].vect_len; j++) {
+                result.matrix_val[i].vect_val[j] = m1.matrix_val[i].vect_val[j] - m2.matrix_val[i].vect_val[j];
+            }
+        }
+    }
+    else
+        result.matrix_len = -1;
+
+    return &result;
+}
+
+matrix *multiplicarmatrices_1_svc(matrix m1, matrix m2, struct svc_req *rqstp) {
+    static matrix result;
+    if (m1.matrix_len == m2.matrix_len) {
+        result.matrix_len = m1.matrix_len;
+        result.matrix_val = malloc(result.matrix_len * sizeof(vect*));
+        for (unsigned int i = 0; i < result.matrix_len; i++) {
+            result.matrix_val[i].vect_len = m1.matrix_val[i].vect_len;
+            result.matrix_val[i].vect_val = malloc(result.matrix_val[i].vect_len * sizeof(double));
+            for (unsigned int j = 0; j < result.matrix_val[i].vect_len; j++) {
+                result.matrix_val[i].vect_val[j] = 0.0;
+                for (unsigned int k = 0; k < m1.matrix_len; k++)
+                    result.matrix_val[i].vect_val[j] += m1.matrix_val[i].vect_val[k] * m2.matrix_val[k].vect_val[j];
+            }
+        }
+    }
+    else
+        result.matrix_len = -1;
+
+    return &result;
+}
+
 char **cifrar_1_svc(char *password, struct svc_req *rqstp) {
     static char* result;
 

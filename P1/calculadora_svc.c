@@ -88,6 +88,24 @@ _dividirvectores_1 (dividirvectores_1_argument *argp, struct svc_req *rqstp)
 	return (dividirvectores_1_svc(argp->v1, argp->v2, rqstp));
 }
 
+static matrix *
+_sumarmatrices_1 (sumarmatrices_1_argument *argp, struct svc_req *rqstp)
+{
+	return (sumarmatrices_1_svc(argp->m1, argp->m2, rqstp));
+}
+
+static matrix *
+_restarmatrices_1 (restarmatrices_1_argument *argp, struct svc_req *rqstp)
+{
+	return (restarmatrices_1_svc(argp->m1, argp->m2, rqstp));
+}
+
+static matrix *
+_multiplicarmatrices_1 (multiplicarmatrices_1_argument *argp, struct svc_req *rqstp)
+{
+	return (multiplicarmatrices_1_svc(argp->m1, argp->m2, rqstp));
+}
+
 static char **
 _cifrar_1 (char * *argp, struct svc_req *rqstp)
 {
@@ -116,6 +134,9 @@ calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		restarvectores_1_argument restarvectores_1_arg;
 		multiplicarvectores_1_argument multiplicarvectores_1_arg;
 		dividirvectores_1_argument dividirvectores_1_arg;
+		sumarmatrices_1_argument sumarmatrices_1_arg;
+		restarmatrices_1_argument restarmatrices_1_arg;
+		multiplicarmatrices_1_argument multiplicarmatrices_1_arg;
 		char *cifrar_1_arg;
 		char *descifrar_1_arg;
 	} argument;
@@ -176,28 +197,46 @@ calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		local = (char *(*)(char *, struct svc_req *)) _escalar_1;
 		break;
 
-	case sumarVectores:
+	case sumarvectores:
 		_xdr_argument = (xdrproc_t) xdr_sumarvectores_1_argument;
 		_xdr_result = (xdrproc_t) xdr_vect;
 		local = (char *(*)(char *, struct svc_req *)) _sumarvectores_1;
 		break;
 
-	case restarVectores:
+	case restarvectores:
 		_xdr_argument = (xdrproc_t) xdr_restarvectores_1_argument;
 		_xdr_result = (xdrproc_t) xdr_vect;
 		local = (char *(*)(char *, struct svc_req *)) _restarvectores_1;
 		break;
 
-	case multiplicarVectores:
+	case multiplicarvectores:
 		_xdr_argument = (xdrproc_t) xdr_multiplicarvectores_1_argument;
 		_xdr_result = (xdrproc_t) xdr_vect;
 		local = (char *(*)(char *, struct svc_req *)) _multiplicarvectores_1;
 		break;
 
-	case dividirVectores:
+	case dividirvectores:
 		_xdr_argument = (xdrproc_t) xdr_dividirvectores_1_argument;
 		_xdr_result = (xdrproc_t) xdr_vect;
 		local = (char *(*)(char *, struct svc_req *)) _dividirvectores_1;
+		break;
+
+	case sumarmatrices:
+		_xdr_argument = (xdrproc_t) xdr_sumarmatrices_1_argument;
+		_xdr_result = (xdrproc_t) xdr_matrix;
+		local = (char *(*)(char *, struct svc_req *)) _sumarmatrices_1;
+		break;
+
+	case restarmatrices:
+		_xdr_argument = (xdrproc_t) xdr_restarmatrices_1_argument;
+		_xdr_result = (xdrproc_t) xdr_matrix;
+		local = (char *(*)(char *, struct svc_req *)) _restarmatrices_1;
+		break;
+
+	case multiplicarmatrices:
+		_xdr_argument = (xdrproc_t) xdr_multiplicarmatrices_1_argument;
+		_xdr_result = (xdrproc_t) xdr_matrix;
+		local = (char *(*)(char *, struct svc_req *)) _multiplicarmatrices_1;
 		break;
 
 	case cifrar:

@@ -31,6 +31,17 @@ xdr_vect (XDR *xdrs, vect *objp)
 }
 
 bool_t
+xdr_matrix (XDR *xdrs, matrix *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_array (xdrs, (char **)&objp->matrix_val, (u_int *) &objp->matrix_len, 32,
+		sizeof (vect), (xdrproc_t) xdr_vect))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
 xdr_password (XDR *xdrs, password *objp)
 {
 	register int32_t *buf;
@@ -154,6 +165,36 @@ xdr_dividirvectores_1_argument (XDR *xdrs, dividirvectores_1_argument *objp)
 	 if (!xdr_vect (xdrs, &objp->v1))
 		 return FALSE;
 	 if (!xdr_vect (xdrs, &objp->v2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_sumarmatrices_1_argument (XDR *xdrs, sumarmatrices_1_argument *objp)
+{
+	 if (!xdr_matrix (xdrs, &objp->m1))
+		 return FALSE;
+	 if (!xdr_matrix (xdrs, &objp->m2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_restarmatrices_1_argument (XDR *xdrs, restarmatrices_1_argument *objp)
+{
+	 if (!xdr_matrix (xdrs, &objp->m1))
+		 return FALSE;
+	 if (!xdr_matrix (xdrs, &objp->m2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_multiplicarmatrices_1_argument (XDR *xdrs, multiplicarmatrices_1_argument *objp)
+{
+	 if (!xdr_matrix (xdrs, &objp->m1))
+		 return FALSE;
+	 if (!xdr_matrix (xdrs, &objp->m2))
 		 return FALSE;
 	return TRUE;
 }

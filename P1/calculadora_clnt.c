@@ -156,7 +156,7 @@ sumarvectores_1(vect v1, vect v2,  CLIENT *clnt)
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
 	arg.v1 = v1;
 	arg.v2 = v2;
-	if (clnt_call (clnt, sumarVectores, (xdrproc_t) xdr_sumarvectores_1_argument, (caddr_t) &arg,
+	if (clnt_call (clnt, sumarvectores, (xdrproc_t) xdr_sumarvectores_1_argument, (caddr_t) &arg,
 		(xdrproc_t) xdr_vect, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
@@ -173,7 +173,7 @@ restarvectores_1(vect v1, vect v2,  CLIENT *clnt)
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
 	arg.v1 = v1;
 	arg.v2 = v2;
-	if (clnt_call (clnt, restarVectores, (xdrproc_t) xdr_restarvectores_1_argument, (caddr_t) &arg,
+	if (clnt_call (clnt, restarvectores, (xdrproc_t) xdr_restarvectores_1_argument, (caddr_t) &arg,
 		(xdrproc_t) xdr_vect, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
@@ -190,7 +190,7 @@ multiplicarvectores_1(vect v1, vect v2,  CLIENT *clnt)
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
 	arg.v1 = v1;
 	arg.v2 = v2;
-	if (clnt_call (clnt, multiplicarVectores, (xdrproc_t) xdr_multiplicarvectores_1_argument, (caddr_t) &arg,
+	if (clnt_call (clnt, multiplicarvectores, (xdrproc_t) xdr_multiplicarvectores_1_argument, (caddr_t) &arg,
 		(xdrproc_t) xdr_vect, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
@@ -207,8 +207,59 @@ dividirvectores_1(vect v1, vect v2,  CLIENT *clnt)
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
 	arg.v1 = v1;
 	arg.v2 = v2;
-	if (clnt_call (clnt, dividirVectores, (xdrproc_t) xdr_dividirvectores_1_argument, (caddr_t) &arg,
+	if (clnt_call (clnt, dividirvectores, (xdrproc_t) xdr_dividirvectores_1_argument, (caddr_t) &arg,
 		(xdrproc_t) xdr_vect, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+matrix *
+sumarmatrices_1(matrix m1, matrix m2,  CLIENT *clnt)
+{
+	sumarmatrices_1_argument arg;
+	static matrix clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.m1 = m1;
+	arg.m2 = m2;
+	if (clnt_call (clnt, sumarmatrices, (xdrproc_t) xdr_sumarmatrices_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_matrix, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+matrix *
+restarmatrices_1(matrix m1, matrix m2,  CLIENT *clnt)
+{
+	restarmatrices_1_argument arg;
+	static matrix clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.m1 = m1;
+	arg.m2 = m2;
+	if (clnt_call (clnt, restarmatrices, (xdrproc_t) xdr_restarmatrices_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_matrix, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+matrix *
+multiplicarmatrices_1(matrix m1, matrix m2,  CLIENT *clnt)
+{
+	multiplicarmatrices_1_argument arg;
+	static matrix clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.m1 = m1;
+	arg.m2 = m2;
+	if (clnt_call (clnt, multiplicarmatrices, (xdrproc_t) xdr_multiplicarmatrices_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_matrix, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
 	}
