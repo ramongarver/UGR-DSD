@@ -6,6 +6,18 @@
 #include "calculadora.h"
 
 bool_t
+xdr_power (XDR *xdrs, power *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_int (xdrs, &objp->base))
+		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->exponente))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
 xdr_point (XDR *xdrs, point *objp)
 {
 	register int32_t *buf;
@@ -37,6 +49,17 @@ xdr_matrix (XDR *xdrs, matrix *objp)
 
 	 if (!xdr_array (xdrs, (char **)&objp->matrix_val, (u_int *) &objp->matrix_len, 32,
 		sizeof (vect), (xdrproc_t) xdr_vect))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_matrixv (XDR *xdrs, matrixv *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_array (xdrs, (char **)&objp->matrixv_val, (u_int *) &objp->matrixv_len, 36,
+		sizeof (double), (xdrproc_t) xdr_double))
 		 return FALSE;
 	return TRUE;
 }
@@ -83,16 +106,6 @@ xdr_multiplicar_1_argument (XDR *xdrs, multiplicar_1_argument *objp)
 
 bool_t
 xdr_dividir_1_argument (XDR *xdrs, dividir_1_argument *objp)
-{
-	 if (!xdr_int (xdrs, &objp->a))
-		 return FALSE;
-	 if (!xdr_int (xdrs, &objp->b))
-		 return FALSE;
-	return TRUE;
-}
-
-bool_t
-xdr_potencia_1_argument (XDR *xdrs, potencia_1_argument *objp)
 {
 	 if (!xdr_int (xdrs, &objp->a))
 		 return FALSE;
@@ -195,6 +208,36 @@ xdr_multiplicarmatrices_1_argument (XDR *xdrs, multiplicarmatrices_1_argument *o
 	 if (!xdr_matrix (xdrs, &objp->m1))
 		 return FALSE;
 	 if (!xdr_matrix (xdrs, &objp->m2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_sumarmatricesv_1_argument (XDR *xdrs, sumarmatricesv_1_argument *objp)
+{
+	 if (!xdr_matrixv (xdrs, &objp->m1))
+		 return FALSE;
+	 if (!xdr_matrixv (xdrs, &objp->m2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_restarmatricesv_1_argument (XDR *xdrs, restarmatricesv_1_argument *objp)
+{
+	 if (!xdr_matrixv (xdrs, &objp->m1))
+		 return FALSE;
+	 if (!xdr_matrixv (xdrs, &objp->m2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_multiplicarmatricesv_1_argument (XDR *xdrs, multiplicarmatricesv_1_argument *objp)
+{
+	 if (!xdr_matrixv (xdrs, &objp->m1))
+		 return FALSE;
+	 if (!xdr_matrixv (xdrs, &objp->m2))
 		 return FALSE;
 	return TRUE;
 }

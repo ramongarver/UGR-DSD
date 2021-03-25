@@ -1,3 +1,8 @@
+struct power {
+    int base;
+    int exponente;
+};
+
 struct point {
     double x;
     double y;
@@ -5,7 +10,9 @@ struct point {
 };
 
 typedef double vect<32>;
+
 typedef vect matrix<32>;
+typedef double matrixv<36>;
 
 typedef string password<32>;
 
@@ -15,7 +22,7 @@ program CALCULADORAPROG {
 		int restar (int a, int b) = 2;
 		int multiplicar (int a, int b) = 3;
 		int dividir (int a, int b) = 4;
-		int potencia (int a, int b) = 5;
+		int potencia (power p) = 5;
 		double raizcuadrada (double a) = 6;
 
 		point transladar(point p, double x, double y, double z) = 7;
@@ -30,7 +37,11 @@ program CALCULADORAPROG {
 		matrix restarmatrices(matrix m1, matrix m2) = 14;
 		matrix multiplicarmatrices(matrix m1, matrix m2) = 15;
 
-        string cifrar(string password) = 16;
-		string descifrar(string password) = 17;
-	} = 1;
+		matrixv sumarmatricesv(matrixv m1, matrixv m2) = 16;
+        matrixv restarmatricesv(matrixv m1, matrixv m2) = 17;
+        matrixv multiplicarmatricesv(matrixv m1, matrixv m2) = 18;
+
+        string cifrar(string password) = 21;
+		string descifrar(string password) = 22;
+    } = 1;
 } = 0x20000000;

@@ -41,9 +41,9 @@ _dividir_1 (dividir_1_argument *argp, struct svc_req *rqstp)
 }
 
 static int *
-_potencia_1 (potencia_1_argument *argp, struct svc_req *rqstp)
+_potencia_1 (power  *argp, struct svc_req *rqstp)
 {
-	return (potencia_1_svc(argp->a, argp->b, rqstp));
+	return (potencia_1_svc(*argp, rqstp));
 }
 
 static double *
@@ -106,6 +106,24 @@ _multiplicarmatrices_1 (multiplicarmatrices_1_argument *argp, struct svc_req *rq
 	return (multiplicarmatrices_1_svc(argp->m1, argp->m2, rqstp));
 }
 
+static matrixv *
+_sumarmatricesv_1 (sumarmatricesv_1_argument *argp, struct svc_req *rqstp)
+{
+	return (sumarmatricesv_1_svc(argp->m1, argp->m2, rqstp));
+}
+
+static matrixv *
+_restarmatricesv_1 (restarmatricesv_1_argument *argp, struct svc_req *rqstp)
+{
+	return (restarmatricesv_1_svc(argp->m1, argp->m2, rqstp));
+}
+
+static matrixv *
+_multiplicarmatricesv_1 (multiplicarmatricesv_1_argument *argp, struct svc_req *rqstp)
+{
+	return (multiplicarmatricesv_1_svc(argp->m1, argp->m2, rqstp));
+}
+
 static char **
 _cifrar_1 (char * *argp, struct svc_req *rqstp)
 {
@@ -126,7 +144,7 @@ calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		restar_1_argument restar_1_arg;
 		multiplicar_1_argument multiplicar_1_arg;
 		dividir_1_argument dividir_1_arg;
-		potencia_1_argument potencia_1_arg;
+		power potencia_1_arg;
 		double raizcuadrada_1_arg;
 		transladar_1_argument transladar_1_arg;
 		escalar_1_argument escalar_1_arg;
@@ -137,6 +155,9 @@ calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		sumarmatrices_1_argument sumarmatrices_1_arg;
 		restarmatrices_1_argument restarmatrices_1_arg;
 		multiplicarmatrices_1_argument multiplicarmatrices_1_arg;
+		sumarmatricesv_1_argument sumarmatricesv_1_arg;
+		restarmatricesv_1_argument restarmatricesv_1_arg;
+		multiplicarmatricesv_1_argument multiplicarmatricesv_1_arg;
 		char *cifrar_1_arg;
 		char *descifrar_1_arg;
 	} argument;
@@ -174,7 +195,7 @@ calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		break;
 
 	case potencia:
-		_xdr_argument = (xdrproc_t) xdr_potencia_1_argument;
+		_xdr_argument = (xdrproc_t) xdr_power;
 		_xdr_result = (xdrproc_t) xdr_int;
 		local = (char *(*)(char *, struct svc_req *)) _potencia_1;
 		break;
@@ -237,6 +258,24 @@ calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		_xdr_argument = (xdrproc_t) xdr_multiplicarmatrices_1_argument;
 		_xdr_result = (xdrproc_t) xdr_matrix;
 		local = (char *(*)(char *, struct svc_req *)) _multiplicarmatrices_1;
+		break;
+
+	case sumarmatricesv:
+		_xdr_argument = (xdrproc_t) xdr_sumarmatricesv_1_argument;
+		_xdr_result = (xdrproc_t) xdr_matrixv;
+		local = (char *(*)(char *, struct svc_req *)) _sumarmatricesv_1;
+		break;
+
+	case restarmatricesv:
+		_xdr_argument = (xdrproc_t) xdr_restarmatricesv_1_argument;
+		_xdr_result = (xdrproc_t) xdr_matrixv;
+		local = (char *(*)(char *, struct svc_req *)) _restarmatricesv_1;
+		break;
+
+	case multiplicarmatricesv:
+		_xdr_argument = (xdrproc_t) xdr_multiplicarmatricesv_1_argument;
+		_xdr_result = (xdrproc_t) xdr_matrixv;
+		local = (char *(*)(char *, struct svc_req *)) _multiplicarmatricesv_1;
 		break;
 
 	case cifrar:

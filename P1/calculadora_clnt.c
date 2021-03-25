@@ -78,15 +78,13 @@ dividir_1(int a, int b,  CLIENT *clnt)
 }
 
 int *
-potencia_1(int a, int b,  CLIENT *clnt)
+potencia_1(power p,  CLIENT *clnt)
 {
-	potencia_1_argument arg;
 	static int clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
-	arg.a = a;
-	arg.b = b;
-	if (clnt_call (clnt, potencia, (xdrproc_t) xdr_potencia_1_argument, (caddr_t) &arg,
+	if (clnt_call (clnt, potencia,
+		(xdrproc_t) xdr_power, (caddr_t) &p,
 		(xdrproc_t) xdr_int, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
@@ -260,6 +258,57 @@ multiplicarmatrices_1(matrix m1, matrix m2,  CLIENT *clnt)
 	arg.m2 = m2;
 	if (clnt_call (clnt, multiplicarmatrices, (xdrproc_t) xdr_multiplicarmatrices_1_argument, (caddr_t) &arg,
 		(xdrproc_t) xdr_matrix, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+matrixv *
+sumarmatricesv_1(matrixv m1, matrixv m2,  CLIENT *clnt)
+{
+	sumarmatricesv_1_argument arg;
+	static matrixv clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.m1 = m1;
+	arg.m2 = m2;
+	if (clnt_call (clnt, sumarmatricesv, (xdrproc_t) xdr_sumarmatricesv_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_matrixv, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+matrixv *
+restarmatricesv_1(matrixv m1, matrixv m2,  CLIENT *clnt)
+{
+	restarmatricesv_1_argument arg;
+	static matrixv clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.m1 = m1;
+	arg.m2 = m2;
+	if (clnt_call (clnt, restarmatricesv, (xdrproc_t) xdr_restarmatricesv_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_matrixv, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+matrixv *
+multiplicarmatricesv_1(matrixv m1, matrixv m2,  CLIENT *clnt)
+{
+	multiplicarmatricesv_1_argument arg;
+	static matrixv clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.m1 = m1;
+	arg.m2 = m2;
+	if (clnt_call (clnt, multiplicarmatricesv, (xdrproc_t) xdr_multiplicarmatricesv_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_matrixv, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
 	}
