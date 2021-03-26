@@ -43,5 +43,8 @@ program CALCULADORAPROG {
 
         string cifrar(string password) = 21;
 		string descifrar(string password) = 22;
+
+        string cifrarenservidorfinal(string password) = 23;
+        string descifrarenservidorfinal(string password) = 24;
     } = 1;
 } = 0x20000000;

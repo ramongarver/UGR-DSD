@@ -222,7 +222,20 @@ void calculadoraprog_1(char *host, int a, char operator, int b) {
     printf("Contraseña cifrada: %s\n", *encryptedPassword);
     desencryptedPassword = descifrar_1(*encryptedPassword, clnt);
     printf("Contraseña descifrada: %s\n", *desencryptedPassword);
+
     printf("\n");
+    //-------------------------------------------------------------------------------------------//
+
+    // Cifrado y descifrado por el último servidor
+    char *passwordls = "alohomora";
+    char **encryptedPasswordls;
+    char **desencryptedPasswordls;
+
+    printf("Contraseña sin cifrar: %s\n", passwordls);
+    encryptedPasswordls = cifrarenservidorfinal_1(passwordls, host, clnt);
+    printf("Contraseña cifrada: %s\n", *encryptedPasswordls);
+    desencryptedPasswordls = descifrarenservidorfinal_1(*encryptedPasswordls, host, clnt);
+    printf("Contraseña descifrada: %s\n", *desencryptedPasswordls);
     //-------------------------------------------------------------------------------------------//
 
     #ifndef	DEBUG

@@ -1,5 +1,7 @@
 #include <math.h>
 #include "calculadora.h"
+#include "cifrador.h"
+
 
 int *sumar_1_svc(int a, int b,  struct svc_req *rqstp) {
 	static int result;
@@ -248,6 +250,52 @@ char **descifrar_1_svc(char *password, struct svc_req *rqstp) {
         password[i] += 30;
 
     result = password;
+
+    return &result;
+};
+
+
+char **cifrarenservidorfinal_1_svc(char *password, char *host, struct svc_req *rqstp) {
+    static char* result;
+
+    CLIENT *clntls;
+
+    #ifndef	DEBUG
+        clntls = clnt_create ("localhost", CIFRADORPROG, CIFRADORVER, "udp");
+        if (clntls == NULL) {
+            clnt_pcreateerror ("localhost");
+            exit (1);
+        }
+    #endif	/* DEBUG */
+
+    result = *cifrarfinal_1(password, clntls);
+
+    #ifndef	DEBUG
+        clnt_destroy (clntls);
+    #endif	 /* DEBUG */
+
+    return &result;
+};
+
+
+char **descifrarenservidorfinal_1_svc(char *password, char *host, struct svc_req *rqstp) {
+    static char* result;
+
+    CLIENT *clntls;
+
+    #ifndef	DEBUG
+        clntls = clnt_create ("localhost", CIFRADORPROG, CIFRADORVER, "udp");
+        if (clntls == NULL) {
+            clnt_pcreateerror ("localhost");
+            exit (1);
+        }
+    #endif	/* DEBUG */
+
+    result = *descifrarfinal_1(password, clntls);
+
+    #ifndef	DEBUG
+        clnt_destroy (clntls);
+    #endif	 /* DEBUG */
 
     return &result;
 };

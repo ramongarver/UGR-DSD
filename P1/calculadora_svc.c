@@ -136,6 +136,18 @@ _descifrar_1 (char * *argp, struct svc_req *rqstp)
 	return (descifrar_1_svc(*argp, rqstp));
 }
 
+static char **
+_cifrarenservidorfinal_1 (char * *argp, char *host, struct svc_req *rqstp)
+{
+	return (cifrarenservidorfinal_1_svc(*argp, host, rqstp));
+}
+
+static char **
+_descifrarenservidorfinal_1 (char * *argp, char *host, struct svc_req *rqstp)
+{
+	return (descifrarenservidorfinal_1_svc(*argp, host, rqstp));
+}
+
 static void
 calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
@@ -160,6 +172,8 @@ calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		multiplicarmatricesv_1_argument multiplicarmatricesv_1_arg;
 		char *cifrar_1_arg;
 		char *descifrar_1_arg;
+		char *cifrarenservidorfinal_1_arg;
+		char *descifrarenservidorfinal_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -288,6 +302,18 @@ calculadoraprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		_xdr_argument = (xdrproc_t) xdr_wrapstring;
 		_xdr_result = (xdrproc_t) xdr_wrapstring;
 		local = (char *(*)(char *, struct svc_req *)) _descifrar_1;
+		break;
+
+	case cifrarenservidorfinal:
+		_xdr_argument = (xdrproc_t) xdr_wrapstring;
+		_xdr_result = (xdrproc_t) xdr_wrapstring;
+		local = (char *(*)(char *, struct svc_req *)) _cifrarenservidorfinal_1;
+		break;
+
+	case descifrarenservidorfinal:
+		_xdr_argument = (xdrproc_t) xdr_wrapstring;
+		_xdr_result = (xdrproc_t) xdr_wrapstring;
+		local = (char *(*)(char *, struct svc_req *)) _descifrarenservidorfinal_1;
 		break;
 
 	default:

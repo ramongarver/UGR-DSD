@@ -344,3 +344,33 @@ descifrar_1(char *password,  CLIENT *clnt)
 	}
 	return (&clnt_res);
 }
+
+char **
+cifrarenservidorfinal_1(char *password, char *host, CLIENT *clnt)
+{
+	static char *clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	if (clnt_call (clnt, cifrarenservidorfinal,
+		(xdrproc_t) xdr_wrapstring, (caddr_t) &password,
+		(xdrproc_t) xdr_wrapstring, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+char **
+descifrarenservidorfinal_1(char *password,  char* host, CLIENT *clnt)
+{
+	static char *clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	if (clnt_call (clnt, descifrarenservidorfinal,
+		(xdrproc_t) xdr_wrapstring, (caddr_t) &password,
+		(xdrproc_t) xdr_wrapstring, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}

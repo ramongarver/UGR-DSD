@@ -208,6 +208,12 @@ extern  char ** cifrar_1_svc(char *, struct svc_req *);
 #define descifrar 22
 extern  char ** descifrar_1(char *, CLIENT *);
 extern  char ** descifrar_1_svc(char *, struct svc_req *);
+#define cifrarenservidorfinal 23
+extern  char ** cifrarenservidorfinal_1(char *, char *, CLIENT *);
+extern  char ** cifrarenservidorfinal_1_svc(char *, char *, struct svc_req *);
+#define descifrarenservidorfinal 24
+extern  char ** descifrarenservidorfinal_1(char *, char *, CLIENT *);
+extern  char ** descifrarenservidorfinal_1_svc(char *, char *, struct svc_req *);
 extern int calculadoraprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
@@ -271,6 +277,12 @@ extern  char ** cifrar_1_svc();
 #define descifrar 22
 extern  char ** descifrar_1();
 extern  char ** descifrar_1_svc();
+#define cifrarenservidorfinal 23
+extern  char ** cifrarenservidorfinal_1();
+extern  char ** cifrarenservidorfinal_1_svc();
+#define descifrarenservidorfinal 24
+extern  char ** descifrarenservidorfinal_1();
+extern  char ** descifrarenservidorfinal_1_svc();
 extern int calculadoraprog_1_freeresult ();
 #endif /* K&R C */
 
