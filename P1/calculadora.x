@@ -42,7 +42,7 @@ program CALCULADORAPROG {
         matrixv multiplicarmatricesv(matrixv m1, matrixv m2) = 18;
 
         string cifrar(string password) = 21;
-		string descifrar(string password) = 22;
+        string descifrar(string password) = 22;
 
         string cifrarenservidorfinal(string password) = 23;
         string descifrarenservidorfinal(string password) = 24;
