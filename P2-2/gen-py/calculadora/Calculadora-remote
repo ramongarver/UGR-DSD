@@ -27,6 +27,22 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  void ping()')
     print('  i32 suma(i32 num1, i32 num2)')
     print('  i32 resta(i32 num1, i32 num2)')
+    print('  i32 multiplicacion(i32 num1, i32 num2)')
+    print('  i32 division(i32 num1, i32 num2)')
+    print('  i32 potencia(Power p)')
+    print('  double raizCuadrada(double num)')
+    print('  Calculos resolverCalculos(Calculos calculos)')
+    print('  Point transladar(Point p, double x, double y, double z)')
+    print('  Point escalar(Point p, double x, double y, double z)')
+    print('  Vector sumarVectores(Vector v1, Vector v2)')
+    print('  Vector restarVectores(Vector v1, Vector v2)')
+    print('  Vector multiplicarVectores(Vector v1, Vector v2)')
+    print('  Vector dividirVectores(Vector v1, Vector v2)')
+    print('  Matrix sumarMatrices(Matrix m1, Matrix m2)')
+    print('  Matrix restarMatrices(Matrix m1, Matrix m2)')
+    print('  Matrix multiplicarMatrices(Matrix m1, Matrix m2)')
+    print('  string cifrar(string password)')
+    print('  string descifrar(string password)')
     print('')
     sys.exit(0)
 
@@ -123,6 +139,102 @@ elif cmd == 'resta':
         print('resta requires 2 args')
         sys.exit(1)
     pp.pprint(client.resta(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'multiplicacion':
+    if len(args) != 2:
+        print('multiplicacion requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.multiplicacion(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'division':
+    if len(args) != 2:
+        print('division requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.division(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'potencia':
+    if len(args) != 1:
+        print('potencia requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.potencia(eval(args[0]),))
+
+elif cmd == 'raizCuadrada':
+    if len(args) != 1:
+        print('raizCuadrada requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.raizCuadrada(eval(args[0]),))
+
+elif cmd == 'resolverCalculos':
+    if len(args) != 1:
+        print('resolverCalculos requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.resolverCalculos(eval(args[0]),))
+
+elif cmd == 'transladar':
+    if len(args) != 4:
+        print('transladar requires 4 args')
+        sys.exit(1)
+    pp.pprint(client.transladar(eval(args[0]), eval(args[1]), eval(args[2]), eval(args[3]),))
+
+elif cmd == 'escalar':
+    if len(args) != 4:
+        print('escalar requires 4 args')
+        sys.exit(1)
+    pp.pprint(client.escalar(eval(args[0]), eval(args[1]), eval(args[2]), eval(args[3]),))
+
+elif cmd == 'sumarVectores':
+    if len(args) != 2:
+        print('sumarVectores requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.sumarVectores(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'restarVectores':
+    if len(args) != 2:
+        print('restarVectores requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.restarVectores(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'multiplicarVectores':
+    if len(args) != 2:
+        print('multiplicarVectores requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.multiplicarVectores(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'dividirVectores':
+    if len(args) != 2:
+        print('dividirVectores requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.dividirVectores(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'sumarMatrices':
+    if len(args) != 2:
+        print('sumarMatrices requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.sumarMatrices(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'restarMatrices':
+    if len(args) != 2:
+        print('restarMatrices requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.restarMatrices(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'multiplicarMatrices':
+    if len(args) != 2:
+        print('multiplicarMatrices requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.multiplicarMatrices(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'cifrar':
+    if len(args) != 1:
+        print('cifrar requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.cifrar(args[0],))
+
+elif cmd == 'descifrar':
+    if len(args) != 1:
+        print('descifrar requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.descifrar(args[0],))
 
 else:
     print('Unrecognized method %s' % cmd)
