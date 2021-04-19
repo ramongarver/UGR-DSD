@@ -24,6 +24,8 @@ Cliente/Servidor complejo.
 - Servidor: servidor_matrices.rb
 - Servidor: servidor_cifrador.rb
 
+Posee toda la funcionalidad completa.
+
 Ejecución:
 
 `python3 gen-py/servidor_intermedio.py`
@@ -40,7 +42,7 @@ Ejecución:
 
 
 
-#### Versiones utilizadas
+### Versiones utilizadas
 
 Apache Thrift -  0.13.0
 
