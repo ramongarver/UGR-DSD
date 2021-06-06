@@ -1,0 +1,64 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>Agente</title>
+	</head>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+		const serviceURL = 'localhost:8080';
+		const socket = io.connect(serviceURL);
+
+		const TemperaturaMinima = 18;
+		const TemperaturaMaxima = 27;
+
+		const LuminosisdadMinima = 300;
+		const LuminosidadMaxima = 1200;
+
+		const HumedadMinima = 40;
+		const HumedadMaxima = 60;
+
+		let temperaturaActual = 0;
+		let luminosidadActual = 0;
+
+		function cerrarPersiana() {
+			// Publicación al servidor del cierre de la persiana - Evento 'cerrar-persiana'
+			socket.emit('cerrar-persiana');
+		}
+
+		// Suscripción al estado de la temperatura - Evento 'estado-temperatura'
+		socket.on('estado-temperatura', function(temperatura) {
+			temperaturaActual = temperatura;
+
+			if (temperaturaActual > TemperaturaMaxima) {
+				// Publicación de alerta por temperatura al servidor - Evento 'alerta-temperatura'
+				socket.emit('alerta-temperatura', {actual:temperaturaActual, maxima:TemperaturaMaxima});
+				if (luminosidadActual > LuminosidadMaxima)
+					cerrarPersiana();
+			}
+		});
+		// Suscripción al estado de la luminosidad - Evento 'estado-luminosidad'
+		socket.on('estado-luminosidad', function(luminosidad) {
+			luminosidadActual = luminosidad;
+
+			if (luminosidadActual > LuminosidadMaxima) {
+				// Publicación de alerta por luminosidad al servidor - Evento 'alerta-luminosidad'
+				socket.emit('alerta-luminosidad', {actual:luminosidadActual, maxima:LuminosidadMaxima});
+				if (temperaturaActual > TemperaturaMaxima)
+					cerrarPersiana();
+			}
+		});
+		// Suscripción al estado de la humedad - Evento 'estado-humedad'
+		socket.on('estado-humedad', function(humedad) { humedadActual = humedad; });
+
+		// Publicación de la petición de la última información de temperatura del sensor al servidor
+		// Evento - 'obtener-temperatura'
+		socket.emit('obtener-temperatura');
+		// Publicación de la petición de la última información de luminosidad del sensor al servidor
+		// Evento - 'obtener-luminosidad'
+		socket.emit('obtener-luminosidad');
+		// Publicación de la petición de la última información de humedad del sensor al servidor
+		// Evento - 'obtener-humedad'
+		socket.emit('obtener-humedad');
+	</script>
+</html>

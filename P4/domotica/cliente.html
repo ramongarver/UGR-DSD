@@ -1,0 +1,106 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>Cliente</title>
+	</head>
+
+	<body>
+		<div id="resultados">
+			<ul id="lista"></ul>
+		</div>
+
+		<div id="estados">
+			<p> Estado de la persiana: <span id="estado-persiana"></span></p>
+			<p> Estado del A/C: <span id="estado-aire-acondicionado"></span></p>
+			<p> Estado de la luz: <span id="estado-luz"></span></p>
+			<button id="actuador-persiana">Cambiar estado de la persiana</button>
+			<button id="actuador-aire-acondicionado">Cambiar estado del A/C</button>
+			<button id="actuador-luz">Cambiar estado de la luz</button>
+		</div>
+
+		<div>
+			<p id="advertencia-luminosidad" style="color: red"></p>
+			<p id="advertencia-temperatura" style="color: red"></p>
+		</div>
+	</body>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+		function actualizarLista(datosSensores){
+			let listElement = document.getElementById('lista');
+			let listItem = document.createElement('li');
+			listItem.innerHTML = datosSensores;
+	        listElement.appendChild(listItem);
+	    }
+
+		let serviceURL = 'localhost:8080';
+		let socket = io.connect(serviceURL);
+
+		// Publicación que indica que se quiere obtener la última información de los sensores registrada
+		// Evento 'ultima-informacion-sensores'
+		socket.emit('ultima-informacion-sensores');
+
+		// Suscripción al estado de los sensores - Evento 'actualizar-estados-sensores'
+		socket.on('actualizar-estados-sensores', function(datosSensores) {
+			actualizarLista(datosSensores);
+			document.getElementById('advertencia-luminosidad').innerHTML = '';
+			document.getElementById('advertencia-temperatura').innerHTML = '';
+		});
+
+		// Publicación para decir al servidor que se quiere obtener el estado de la persiana
+		// Evento 'obtener-estado-persiana'
+		socket.emit('obtener-estado-persiana');
+		// Publicación para decir al servidor que se quiere obtener el estado del aire acondicionado
+		// Evento 'obtener-estado-aire-acondicionado'
+		socket.emit('obtener-estado-aire-acondicionado');
+		// Publicación para decir al servidor que se quiere obtener el estado de la luz
+		// Evento 'obtener-estado-luz'
+		socket.emit('obtener-estado-luz');
+
+		// Suscripción al estado de la persiana del servidor - Evento 'estado-persiana'
+		socket.on('estado-persiana', function(persiana){
+			let estadoPersiana = document.getElementById('estado-persiana');
+			estadoPersiana.innerHTML = persiana;
+		});
+		// Suscripción al estado del aire acondicionado del servidor - Evento 'estado-aire-acondicionado'
+		socket.on('estado-aire-acondicionado', function(aireAcondicionado){
+			let estadoAireAcondicionado = document.getElementById('estado-aire-acondicionado');
+			estadoAireAcondicionado.innerHTML = aireAcondicionado;
+		});
+		// Suscripción al estado de la luz del servidor - Evento 'estado-luz'
+		socket.on('estado-luz', function(luz){
+			let estadoLuz = document.getElementById('estado-luz');
+			estadoLuz.innerHTML = luz;
+		});
+
+		// Actuador persiana - Botón que cambia el estado de la persiana al pulsarlo
+		let botonPersiana = document.getElementById('actuador-persiana');
+		botonPersiana.onclick = function(){
+			// Publicación de cambio en el estado de la persiana para el servidor - Evento 'cambiar-estado-persiana'
+			socket.emit('cambiar-estado-persiana');
+		}
+		// Actuador aire acondicionado - Botón que cambia el estado del aire acondicionado al pulsarlo
+		let botonAireAcondicionado = document.getElementById('actuador-aire-acondicionado');
+		botonAireAcondicionado.onclick = function(){
+			// Publicación de cambio en el estado del aire acondicionado para el servidor - Evento 'cambiar-estado-aire-acondicionado'
+			socket.emit('cambiar-estado-aire-acondicionado');
+		}
+		// Actuador luz - Botón que cambia el estado de la luz al pulsarlo
+		let botonLuz = document.getElementById('actuador-luz');
+		botonLuz.onclick = function(){
+			// Publicación de cambio en el estado de la luz para el servidor - Evento 'cambiar-estado-luz'
+			socket.emit('cambiar-estado-luz');
+		}
+
+		// Suscripción a la actualización de la advertencia de luminosidad - Evento 'advertencia-luminosidad'
+		socket.on('advertencia-luminosidad', function(luminosidad) {
+			document.getElementById('advertencia-luminosidad').innerHTML = "Alerta - " +
+				" La luminosidad ha sobrepasado el valor máximo de " + luminosidad.maxima + " Lux. Ahora es: " + luminosidad.actual + " Lux";
+		});
+		// Suscripción a la actualización de la advertencia de temperatura - Evento 'advertencia-temperatura'
+		socket.on('advertencia-temperatura', function(temperatura) {
+			document.getElementById('advertencia-temperatura').innerHTML = "Alerta - " +
+				" La temperatura ha sobrepasado el valor máximo de " + temperatura.maxima + "ºC. Ahora es: " + temperatura.actual + "ºC";
+		});
+	</script>
+</html>

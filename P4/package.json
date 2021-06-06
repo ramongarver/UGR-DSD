@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "bootstrap": "^5.0.1",
     "mongodb": "^2.2.36",
     "socket.io": "^4.0.2"
   },

@@ -1,0 +1,56 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+		<title>Sensores</title>
+	</head>
+
+	<body>
+		<h1> Sistema Domótico IoT - Sensores</h1>
+		<div class="container">
+			<form action="javascript:void(0);" onsubmit="javascript:enviarDatosSensores();">
+				<div class="align-items-center">
+					<label for="temperatura">Temperatura (ºC):</label>
+					<input type="number" id="temperatura" min="0" max="45"/>
+				</div>
+
+				<div class="align-items-center">
+					<label for="luminosidad">Luminosidad (Lux):</label>
+					<input type="number" id="luminosidad" min="0" max="2000"/>
+				</div>
+
+				<div class="align-items-center">
+					<label for="humedad">Humedad (%):</label>
+					<input type="number" id="humedad" min="0" max="100"/>
+				</div>
+
+				<input type="submit" value="Enviar datos de los sensores"/>
+			</form>
+		</div>
+	</body>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript">
+		function enviarDatosSensores() {
+			let temperatura = document.getElementById("temperatura").value;
+			let luminosidad = document.getElementById("luminosidad").value;
+			let humedad = document.getElementById("humedad").value;
+
+			if (temperatura.length > 0 && luminosidad.length > 0 && humedad.length > 0) {
+				let fecha = new Date();
+				const offset = fecha.getTimezoneOffset();
+				fecha = new Date(fecha.getTime() - (offset * 60 * 1000));
+				fecha = fecha.toISOString().split('T')[0] + " " + fecha.toISOString().split('T')[1].split('.')[0];
+
+				const serviceURL = 'localhost:8080';
+				const socket = io.connect(serviceURL);
+
+				// Publicación de los estados de los sensores - Evento 'publicar-datos-sensores'
+				socket.emit('publicar-estados-sensores', {temperatura:temperatura, luminosidad:luminosidad, humedad:humedad, fecha:fecha});
+			}
+			else {
+				alert("Por favor, rellene todos los campos.");
+			}
+		}
+	</script>
+</html>
