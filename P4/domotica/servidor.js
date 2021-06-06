@@ -53,11 +53,15 @@ let httpServer = http.createServer(
 const EstadosPersiana = {ABIERTA: "Abierta", CERRADA: "Cerrada"};
 const EstadosAireAcondicionado = {ENCENDIDO: "Encendido", APAGADO: "Apagado"};
 const EstadosLuz = {ENCENDIDA: "Encendida", APAGADA: "Apagada"}
+const EstadosCalefactor = {ENCENDIDO: "Encendido", APAGADO: "Apagado"};
+const EstadosHumidificador = {ENCENDIDO: "Encendido", APAGADO: "Apagado"};
 
 // Estados iniciales de los diferentes objetos controlables
 let estadoPersiana = EstadosPersiana.ABIERTA;
 let estadoAireAcondicionado = EstadosAireAcondicionado.ENCENDIDO;
 let estadoLuz = EstadosLuz.ENCENDIDA;
+let estadoCalefactor = EstadosCalefactor.APAGADO;
+let estadoHumidificador = EstadosHumidificador.ENCENDIDO;
 
 let mongoClient = new MongoClient(new MongoServer('localhost', 27017));
 // Conexión a la base de datos
@@ -171,6 +175,30 @@ mongoClient.connect("mongodb://localhost:27017/domoticaDB", function (err, db) {
                 console.log("Cambiado el estado de la luz a: " + estadoLuz);
             });
 
+            // Suscripción al cambio del estado del calefactor por el cliente - Evento 'cambiar-estado-calefactor'
+            client.on('cambiar-estado-calefactor', function () {
+                if (estadoCalefactor == EstadosCalefactor.ENCENDIDO)
+                    estadoCalefactor = EstadosCalefactor.APAGADO;
+                else
+                    estadoCalefactor = EstadosCalefactor.ENCENDIDO;
+
+                // Publicación al cliente del estado del calefactor - Evento 'estado-calefactor'
+                io.sockets.emit('estado-calefactor', estadoCalefactor);
+                console.log("Cambiado el estado del calefactor a: " + estadoCalefactor);
+            });
+
+            // Suscripción al cambio del estado del humidificador por el cliente - Evento 'cambiar-estado-humidificador'
+            client.on('cambiar-estado-humidificador', function () {
+                if (estadoHumidificador == EstadosHumidificador.ENCENDIDO)
+                    estadoHumidificador = EstadosHumidificador.APAGADO;
+                else
+                    estadoHumidificador = EstadosHumidificador.ENCENDIDO;
+
+                // Publicación al cliente del estado del humidificador - Evento 'estado-humidificador'
+                io.sockets.emit('estado-humidificador', estadoHumidificador);
+                console.log("Cambiado el estado del humidificador a: " + estadoHumidificador);
+            });
+
             // Suscripción a petición del estado de la persiana
             client.on('obtener-estado-persiana', function () {
                 client.emit('estado-persiana', estadoPersiana);
@@ -183,7 +211,14 @@ mongoClient.connect("mongodb://localhost:27017/domoticaDB", function (err, db) {
             client.on('obtener-estado-luz', function () {
                 client.emit('estado-luz', estadoLuz);
             });
-
+            // Suscripción a petición del estado del calefactor
+            client.on('obtener-estado-calefactor', function () {
+                client.emit('estado-calefactor', estadoCalefactor);
+            });
+            // Suscripción a petición del estado del humidificador
+            client.on('obtener-estado-humidificador', function () {
+                client.emit('estado-humidificador', estadoHumidificador);
+            });
 
             // Suscripción a la alerta de temperatura del agente
             // Evento - 'alerta-temperatura'
@@ -203,4 +238,3 @@ mongoClient.connect("mongodb://localhost:27017/domoticaDB", function (err, db) {
 });
 
 console.log("Servicio Domótico iniciado");
-

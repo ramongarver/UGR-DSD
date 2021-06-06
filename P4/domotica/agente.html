@@ -1,6 +1,9 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="/css/base.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/styles.css"/>
 		<title>Agente</title>
 	</head>
 
@@ -18,8 +21,9 @@
 		const HumedadMinima = 40;
 		const HumedadMaxima = 60;
 
-		let temperaturaActual = 0;
-		let luminosidadActual = 0;
+		let temperaturaActual = -1;
+		let luminosidadActual = -1;
+		let humedadActual = -1;
 
 		function cerrarPersiana() {
 			// Publicación al servidor del cierre de la persiana - Evento 'cerrar-persiana'
