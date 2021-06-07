@@ -49,6 +49,7 @@
 				<div class="advertencias">
 					<p id="advertencia-luminosidad"></p>
 					<p id="advertencia-temperatura"></p>
+					<p id="advertencia-humedad"></p>
 				</div>
 			</div>
 
@@ -81,6 +82,7 @@
 			actualizarLista(datosSensores);
 			document.getElementById('advertencia-luminosidad').innerHTML = '';
 			document.getElementById('advertencia-temperatura').innerHTML = '';
+			document.getElementById('advertencia-humedad').innerHTML = '';
 		});
 
 		// Publicación para decir al servidor que se quiere obtener el estado de la persiana
@@ -158,13 +160,36 @@
 
 		// Suscripción a la actualización de la advertencia de luminosidad - Evento 'advertencia-luminosidad'
 		socket.on('advertencia-luminosidad', function(luminosidad) {
-			document.getElementById('advertencia-luminosidad').innerHTML = "Alerta - " +
-				" La luminosidad ha sobrepasado el valor máximo de " + luminosidad.maxima + " Lux. Ahora es: " + luminosidad.actual + " Lux";
+			let alerta = "";
+			if (luminosidad.actual > luminosidad.maxima) {
+				alerta = "Alerta - " + " La luminosidad ha sobrepasado el valor máximo de " + luminosidad.maxima + " Lux. Ahora es: " + luminosidad.actual + " Lux";
+			}
+			else if (luminosidad.actual < luminosidad.minima) {
+				alerta = "Alerta - " + " La luminosidad no ha sobrepasado el valor mínimo de " + luminosidad.minima + " Lux. Ahora es: " + luminosidad.actual + " Lux";
+			}
+			document.getElementById('advertencia-luminosidad').innerHTML = alerta;
 		});
 		// Suscripción a la actualización de la advertencia de temperatura - Evento 'advertencia-temperatura'
 		socket.on('advertencia-temperatura', function(temperatura) {
-			document.getElementById('advertencia-temperatura').innerHTML = "Alerta - " +
-				" La temperatura ha sobrepasado el valor máximo de " + temperatura.maxima + "ºC. Ahora es: " + temperatura.actual + "ºC";
+			let alerta = "";
+			if (temperatura.actual > temperatura.maxima) {
+				alerta = "Alerta - " + " La temperatura ha sobrepasado el valor máximo de " + temperatura.maxima + "ºC. Ahora es: " + temperatura.actual + "ºC";
+			}
+			else if (temperatura.actual < temperatura.minima) {
+				alerta = "Alerta - " + " La temperatura no ha sobrepasado el valor mínimo de " + temperatura.minima + "ºC. Ahora es: " + temperatura.actual + "ºC";
+			}
+			document.getElementById('advertencia-temperatura').innerHTML = alerta;
+		});
+		// Suscripción a la actualización de la advertencia de humedad - Evento 'advertencia-humedad'
+		socket.on('advertencia-humedad', function(humedad) {
+			let alerta = "";
+			if (humedad.actual > humedad.maxima) {
+				alerta = "Alerta - " + " La humedad ha sobrepasado el valor máximo de " + humedad.maxima + "%. Ahora es: " + humedad.actual + "%";
+			}
+			else if (humedad.actual < humedad.minima) {
+				alerta = "Alerta - " + " La humedad no ha sobrepasado el valor mínimo de " + humedad.minima + "%. Ahora es: " + humedad.actual + "%";
+			}
+			document.getElementById('advertencia-humedad').innerHTML = alerta;
 		});
 	</script>
 </html>

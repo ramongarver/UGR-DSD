@@ -25,9 +25,62 @@
 		let luminosidadActual = -1;
 		let humedadActual = -1;
 
+		function abrirPersiana() {
+			// Publicación al servidor de la apertura de la persiana - Evento 'abrir-persiana'
+			socket.emit('abrir-persiana');
+		}
 		function cerrarPersiana() {
 			// Publicación al servidor del cierre de la persiana - Evento 'cerrar-persiana'
 			socket.emit('cerrar-persiana');
+		}
+
+		function encenderAireAcondicionado() {
+			// Publicación al servidor del encendido del aire acondicionado - Evento 'encender-aire-acondicionado'
+			socket.emit('encender-aire-acondicionado');
+		}
+		function apagarAireAcondicionado() {
+			// Publicación al servidor del apagado del aire acondicionado - Evento 'apagar-aire-acondicionado'
+			socket.emit('apagar-aire-acondicionado');
+		}
+
+		function encenderLuz() {
+			// Publicación al servidor del encendido de la luz - Evento 'encender-luz'
+			socket.emit('encender-luz');
+		}
+		function apagarLuz() {
+			// Publicación al servidor del apagado de la luz - Evento 'apagar-luz'
+			socket.emit('apagar-luz');
+		}
+
+		function encenderCalefactor () {
+			// Publicación al servidor del encendido del calefactor - Evento 'encender-calefactor'
+			socket.emit('encender-calefactor');
+		}
+		function apagarCalefactor () {
+			// Publicación al servidor del apagado del calefactor - Evento 'apagar-calefactor'
+			socket.emit('apagar-calefactor');
+		}
+
+		function encenderHumidificador() {
+			// Publicación al servidor del encendido del humidificador - Evento 'encender-humidificador'
+			socket.emit('encender-humidificador');
+		}
+		function apagarHumidificador() {
+			// Publicación al servidor del apagado del humidificador - Evento 'apagar-humidificador'
+			socket.emit('apagar-humidificador');
+		}
+
+		function alertaLuminosidad() {
+			// Publicación de alerta por luminosidad al servidor - Evento 'alerta-luminosidad'
+			socket.emit('alerta-luminosidad', {actual:luminosidadActual, maxima:LuminosidadMaxima, minima:LuminosisdadMinima});
+		}
+		function alertaTemperatura() {
+			// Publicación de alerta por temperatura al servidor - Evento 'alerta-temperatura'
+			socket.emit('alerta-temperatura', {actual:temperaturaActual, maxima:TemperaturaMaxima, minima:TemperaturaMinima});
+		}
+		function alertaHumedad() {
+			// Publicación de alerta por humedad al servidor - Evento 'alerta-humedad'
+			socket.emit('alerta-humedad', {actual:humedadActual, maxima:HumedadMaxima, minima:HumedadMinima});
 		}
 
 		// Suscripción al estado de la temperatura - Evento 'estado-temperatura'
@@ -35,10 +88,23 @@
 			temperaturaActual = temperatura;
 
 			if (temperaturaActual > TemperaturaMaxima) {
-				// Publicación de alerta por temperatura al servidor - Evento 'alerta-temperatura'
-				socket.emit('alerta-temperatura', {actual:temperaturaActual, maxima:TemperaturaMaxima});
+				alertaTemperatura();
+
+				apagarCalefactor();
+				encenderAireAcondicionado();
+
 				if (luminosidadActual > LuminosidadMaxima)
 					cerrarPersiana();
+			}
+			else if (temperaturaActual < TemperaturaMinima) {
+				alertaTemperatura();
+
+				encenderCalefactor();
+				apagarAireAcondicionado();
+			}
+			else {
+				apagarCalefactor();
+				apagarAireAcondicionado();
 			}
 		});
 		// Suscripción al estado de la luminosidad - Evento 'estado-luminosidad'
@@ -46,14 +112,37 @@
 			luminosidadActual = luminosidad;
 
 			if (luminosidadActual > LuminosidadMaxima) {
-				// Publicación de alerta por luminosidad al servidor - Evento 'alerta-luminosidad'
-				socket.emit('alerta-luminosidad', {actual:luminosidadActual, maxima:LuminosidadMaxima});
+				alertaLuminosidad();
+
+				apagarLuz();
+
 				if (temperaturaActual > TemperaturaMaxima)
 					cerrarPersiana();
 			}
+			else if (luminosidadActual < LuminosisdadMinima) {
+				alertaLuminosidad();
+
+				encenderLuz();
+			}
 		});
 		// Suscripción al estado de la humedad - Evento 'estado-humedad'
-		socket.on('estado-humedad', function(humedad) { humedadActual = humedad; });
+		socket.on('estado-humedad', function(humedad) {
+			humedadActual = humedad;
+
+			if (humedadActual < HumedadMinima) {
+				alertaHumedad();
+
+				encenderHumidificador();
+			}
+			else if (humedadActual > HumedadMaxima) {
+				alertaHumedad();
+
+				apagarHumidificador();
+			}
+			else {
+				apagarHumidificador();
+			}
+		});
 
 		// Publicación de la petición de la última información de temperatura del sensor al servidor
 		// Evento - 'obtener-temperatura'

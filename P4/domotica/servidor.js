@@ -130,6 +130,14 @@ mongoClient.connect("mongodb://localhost:27017/domoticaDB", function (err, db) {
                 });
             });
 
+            // Suscripción a la apertura de la persiana por el agente - Evento 'abrir-persiana'
+            client.on('abrir-persiana', function () {
+                estadoPersiana = EstadosPersiana.ABIERTA;
+
+                // Publicación al cliente del estado de la persiana - Evento 'estado-persiana'
+                io.sockets.emit('estado-persiana', estadoPersiana);
+                console.log("Cambiado el estado de la persiana a: " + estadoPersiana);
+            });
             // Suscripción al cierre de la persiana por el agente - Evento 'cerrar-persiana'
             client.on('cerrar-persiana', function () {
                 estadoPersiana = EstadosPersiana.CERRADA;
@@ -137,6 +145,74 @@ mongoClient.connect("mongodb://localhost:27017/domoticaDB", function (err, db) {
                 // Publicación al cliente del estado de la persiana - Evento 'estado-persiana'
                 io.sockets.emit('estado-persiana', estadoPersiana);
                 console.log("Cambiado el estado de la persiana a: " + estadoPersiana);
+            });
+
+            // Suscripción al encendido del aire acondicionado por el agente - Evento 'encender-aire-acondicionado'
+            client.on('encender-aire-acondicionado', function () {
+                estadoAireAcondicionado = EstadosAireAcondicionado.ENCENDIDO;
+
+                // Publicación al cliente del estado del aire acondicionado - Evento 'estado-aire-acondicionado'
+                io.sockets.emit('estado-aire-acondicionado', estadoAireAcondicionado);
+                console.log("Cambiado el estado del aire acondicionado a: " + estadoAireAcondicionado);
+            });
+            // Suscripción al apagado del aire acondicionado por el agente - Evento 'apagar-aire-acondicionado'
+            client.on('apagar-aire-acondicionado', function () {
+                estadoAireAcondicionado = EstadosAireAcondicionado.APAGADO;
+
+                // Publicación al cliente del estado del aire acondicionado - Evento 'estado-aire-acondicionado'
+                io.sockets.emit('estado-aire-acondicionado', estadoAireAcondicionado);
+                console.log("Cambiado el estado del aire acondicionado a: " + estadoAireAcondicionado);
+            });
+
+            // Suscripción al encendido de la luz por el agente - Evento 'encender-luz'
+            client.on('encender-luz', function () {
+                estadoLuz = EstadosLuz.ENCENDIDA;
+
+                // Publicación al cliente del estado de la luz - Evento 'estado-luz'
+                io.sockets.emit('estado-luz', estadoLuz);
+                console.log("Cambiado el estado de la luz a: " + estadoLuz);
+            });
+            // Suscripción al apagado de la luz por el agente - Evento 'apagar-luz'
+            client.on('apagar-luz', function () {
+                estadoLuz = EstadosLuz.APAGADA
+
+                // Publicación al cliente del estado de la luz - Evento 'estado-luz'
+                io.sockets.emit('estado-luz', estadoLuz);
+                console.log("Cambiado el estado de la luz a: " + estadoLuz);
+            });
+
+            // Suscripción al encendido del calefactor por el agente - Evento 'encender-calefactor'
+            client.on('encender-calefactor', function () {
+                estadoCalefactor = EstadosCalefactor.ENCENDIDO;
+
+                // Publicación al cliente del estado del calefactor - Evento 'estado-calefactor'
+                io.sockets.emit('estado-calefactor', estadoCalefactor);
+                console.log("Cambiado el estado del calefactor a: " + estadoCalefactor);
+            });
+            // Suscripción al apagado del calefactor por el agente - Evento 'apagar-calefactor'
+            client.on('apagar-calefactor', function () {
+                estadoCalefactor = EstadosCalefactor.APAGADO;
+
+                // Publicación al cliente del estado del calefactor - Evento 'estado-calefactor'
+                io.sockets.emit('estado-calefactor', estadoCalefactor);
+                console.log("Cambiado el estado del calefactor a: " + estadoCalefactor);
+            });
+
+            // Suscripción al encendido del humidificador por el agente - Evento 'encender-humidificador'
+            client.on('encender-humidificador', function () {
+                estadoHumidificador = EstadosHumidificador.ENCENDIDO;
+
+                // Publicación al cliente del estado del humidificador - Evento 'estado-humidificador'
+                io.sockets.emit('estado-humidificador', estadoHumidificador);
+                console.log("Cambiado el estado del humidificador a: " + estadoHumidificador);
+            });
+            // Suscripción al apagado del humidificador por el agente - Evento 'apagar-humidificador'
+            client.on('apagar-humidificador', function () {
+                estadoHumidificador = EstadosHumidificador.APAGADO;
+
+                // Publicación al cliente del estado del humidificador - Evento 'estado-humidificador'
+                io.sockets.emit('estado-humidificador', estadoHumidificador);
+                console.log("Cambiado el estado del humidificador a: " + estadoHumidificador);
             });
 
             // Suscripción al cambio del estado de la persiana por el cliente - Evento 'cambiar-estado-persiana'
@@ -232,6 +308,13 @@ mongoClient.connect("mongodb://localhost:27017/domoticaDB", function (err, db) {
             client.on('alerta-luminosidad', function (luminosidad) {
                 // Publicación de actualización de advertencia de temperatura - Evento 'advertencia-luminosidad'
                 io.sockets.emit('advertencia-luminosidad', luminosidad);
+            });
+
+            // Suscripción a la alerta de humedad del agente
+            // Evento - 'alerta-humedad'
+            client.on('alerta-humedad', function (humedad) {
+                // Publicación de actualización de advertencia de humedad - Evento 'advertencia-humedad'
+                io.sockets.emit('advertencia-humedad', humedad);
             });
         });
     });
